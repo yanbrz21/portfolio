@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Manto — LuaU Developer</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="shortcut icon" href="./img/logo.png" type="image/x-icon">
+<style>
+:root{--red:#ef4444;--dark-bg:#070707;--card:#0f0f10;--cream:#efe6dc;--creamText:#1f1b16}
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;background:linear-gradient(180deg,var(--dark-bg),#0b0b0b);color:#fff;margin:0;overflow-y:auto;scroll-behavior:smooth}
+.container{max-width:1150px;margin:0 auto;padding:24px}
+.headerWrap{position:sticky;top:12px;z-index:50}
+.header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:12px 18px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.04);box-shadow:0 6px 24px rgba(0,0,0,0.6)}
+.brand{display:flex;align-items:center;gap:14px}
+.logo{width:52px;height:52px;display:flex;align-items:center;justify-content:center;color:#070707;font-weight:800;font-size:18px}
+.brandTitle{display:flex;flex-direction:column}
+.nav{display:flex;gap:18px;align-items:center}
+.nav a{position:relative;padding:6px 8px;color:inherit;text-decoration:none;opacity:.92}
+.nav a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--red);transition:width .25s}
+.nav a:hover::after{width:100%}
+.themeToggle{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,.04);background:transparent}
+.section{display:flex;align-items:center;padding-top:20px;padding-bottom:20px}
+.card{max-width:1150px;margin:18px auto;background:rgb(15,15,15);padding:36px;border-radius:18px;box-shadow:0 14px 40px rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.03)}
+.row{display:flex;gap:36px;align-items:center}
+.col{flex:1}
+.title{font-size:40px;line-height:1.02;font-weight:800}
+.subtitle{margin-top:8px;color:rgba(255,255,255,.78);font-size:16px}
+.metaGrid{display:flex;gap:14px;margin-top:16px;flex-wrap:wrap}
+.metaItem{background:rgba(255,255,255,.02);padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.03);font-size:14px}
+.sectionTitle{font-size:24px;font-weight:700;border-left:4px solid var(--red);padding-left:12px}
+.skillsGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
+.skillBox{background:rgb(20,20,20);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.03);display:flex;flex-direction:column;align-items:center;gap:8px;transition:transform .25s,box-shadow .25s}
+.skillBox:hover{transform:translateY(-6px);box-shadow:0 14px 30px rgba(239,68,68,.12);border-color:var(--red)}
+.skillIcon{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#e65a5a,#640404);display:flex;align-items:center;justify-content:center;font-size:18px}
+.projectArea{display:flex;gap:28px;align-items:center}
+.projectImage{width:560px;height:380px;object-fit:cover;border-radius:14px;flex-shrink:0;cursor:pointer;transition:transform .45s,box-shadow .45s}
+.projectImage:hover{transform:scale(1.03);box-shadow:0 26px 60px rgba(0,0,0,.6)}
+.projectInfo{max-width:560px}
+.projTitle{font-size:34px;font-weight:800}
+.projMeta{margin-top:12px;color:rgba(255,255,255,.78);font-size:16px}
+.projDesc{margin-top:14px;color:rgba(255,255,255,.86);line-height:1.6;font-size:16px}
+.carouselBtn{padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.06);background:transparent;color:inherit;font-size:22px}
+.carouselDots{display:flex;gap:8px;margin-top:18px}
+.dot{width:10px;height:10px;border-radius:99px;background:rgba(255,255,255,.12)}
+.dot.active{background:var(--red)}
+.scrollReveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.scrollReveal.show{opacity:1;transform:none}
+.fade{opacity:0;transform:translateY(10px);transition:opacity .45s,transform .45s}
+.fade.show{opacity:1;transform:none}
+.footer{padding:28px 0;text-align:center;color:rgba(255,255,255,.6)}
+body.light{background:#e8e3d9;color:#1a1a1a;}
+</style>
+</head>
+<body id="root">
+
+<div class="headerWrap container">
+  <div class="header">
+    <div class="brand">
+      <img class="logo" src="./img/logo.png" alt="Logo"/>
+      <div class="brandTitle">
+        <div class="name">Manto</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.75)">LuaU Developer</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="#summarySection">Informations</a>
+      <a href="#resume">Resume</a>
+      <a href="#skills">Skills</a>
+      <a href="#robloxProfile">Roblox Profile</a>
+      <a href="#projetos">Projects</a>
+    </nav>
+  </div>
+</div>
+
+<main>
+  <section class="section" id="summarySection">
+    <div class="card scrollReveal">
+      <div class="row">
+        <div class="col">
+          <div class="title">Manto</div>
+          <div class="subtitle">LuaU Developer</div>
+          <div class="metaGrid">
+            <div class="metaItem">Age: 18</div>
+            <div class="metaItem">Experience: 2 years</div>
+            <div class="metaItem">Country: Brazil</div>
+            <div class="metaItem">UMT: -3</div>
+          </div>
+          <div style="margin-top:18px;display:flex;gap:12px">
+            <a href="#projetos" class="px-4 py-2 rounded-md bg-red-600">My Projects</a>
+            <a href="https://discord.com/users/774330520527306802" class="px-4 py-2 rounded-md" style="background-color:#5865F2; color:white; text-decoration:none;">Discord</a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section class="section" id="resume">
+  <div class="card scrollReveal">
+    <div class="sectionTitle">Resume</div>
+    <div class="resumeContent" style="margin-top:16px; line-height:1.6; color:rgba(255,255,255,.85);">
+      <p>Hello! I'm Manto, a Roblox developer and scripter with experience creating engaging gameplay experiences and custom systems.</p>
+      <p>I'm 18 years old and currently based in Brazil, constantly exploring new ideas and techniques in game development.</p>
+      <p>If you're looking for a skilled scripter for your Roblox projects, feel free to reach out to me on Discord.</p>
+      <br>
+      <p>I'm always eager to learn something new!</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="skills">
+  <div class="card scrollReveal">
+    <div class="sectionTitle">Skills</div>
+    <div class="skillsGrid">
+      <a class="skillBox fade" href="https://sleitnick.github.io/Knit/docs/intro" target="_blank" title="Knit">
+        <div class="skillIcon"><img src="./img/knit.png" alt="Knit" style="width:32px;height:32px"/></div>
+        <div>Knit</div>
+      </a>
+      <a class="skillBox fade" href="https://devforum.roblox.com/t/profilestore-save-your-player-data-easy-datastore-module/3190543" target="_blank" title="ProfileService">
+        <div class="skillIcon"><img src="./img/profilestore.png" alt="ProfileService" style="width:32px;height:32px"/></div>
+        <div>ProfileService</div>
+      </a>
+      <a class="skillBox fade" href="https://create.roblox.com/docs/reference/engine/classes/ModuleScript" target="_blank" title="ModuleScripts">
+        <div class="skillIcon"><img src="./img/module.png" alt="ModuleScripts" style="width:32px;height:32px"/></div>
+        <div>ModuleScripts</div>
+      </a>
+      <a class="skillBox fade" href="https://create.roblox.com/docs/cloud-services/data-stores" target="_blank" title="DataStores">
+        <div class="skillIcon"><img src="./img/datastore.png" alt="DataStores" style="width:32px;height:32px"/></div>
+        <div>DataStores</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+
+  
+  <section class="section" id="robloxProfile">
+    <div class="card scrollReveal">
+      <div class="sectionTitle">Roblox Profile</div>
+      <div class="profileArea" style="margin-top:18px; display:flex; gap:28px; align-items:center; width:1000px; max-width:1000px; margin-left:auto; margin-right:auto;">
+        
+        <!-- Avatar grande à esquerda -->
+        <div style="flex-shrink:0;">
+          <img id="robloxAvatar" src="https://via.placeholder.com/280" alt="Avatar" style="width:280px; height:280px; object-fit:cover; border-radius:14px;"/>
+          <div id="robloxDisplayName" style="margin-top:12px; font-size:22px; font-weight:700; text-align:center;">Fetching...</div>
+        </div>
+        
+        <!-- Informações do perfil -->
+        <div style="flex:1; display:flex; flex-direction:column; gap:12px;">
+          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <div style="background:rgba(255,255,255,.02);padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.03);font-size:16px;">
+            @<span id="robloxUsername">...</span>
+          </div>
+          <div style="background:rgba(255,255,255,.02);padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.03);font-size:16px;">
+            Followers: <span id="robloxFollowers">...</span>
+          </div>
+          <div style="background:rgba(255,255,255,.02);padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.03);font-size:16px;">
+            Friends: <span id="robloxFriends">...</span>
+          </div>
+        </div>
+        
+        <p id="robloxBio" style="margin-top:12px; color:rgba(255,255,255,.86); line-height:1.6; font-size:16px; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden; text-overflow:ellipsis;">
+          Loading bio...
+        </p>
+        
+        <div style="margin-top:18px;">
+          <a id="robloxProfileLink" class="px-4 py-2 rounded-md bg-red-600" href="#" target="_blank">View Profile</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="projetos">
+  <div class="card scrollReveal">
+    <div class="sectionTitle">Projects</div>
+    <div class="projectArea" style="margin-top:18px; display:flex; gap:28px; align-items:center; width:1000px; max-width:1000px; margin-left:auto; margin-right:auto;">
+      <button id="projPrev" class="carouselBtn">‹</button>
+      <img id="projImg" class="projectImage fade" src="" alt="Projeto" style="width:480px; height:270px; object-fit:cover; border-radius:14px; flex-shrink:0; cursor:pointer; transition:transform .45s, box-shadow .45s;"/>
+      <div class="projectInfo fade" style="width:480px; display:flex; flex-direction:column; gap:8px;">
+        <div id="projTitleContainer" style="width:100%;">
+          <div id="projTitle" style="font-size:26px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Fetching roblox's api...</div>
+        </div>
+        <div id="projMeta" class="projMeta"></div>
+        <p id="projDesc" class="projDesc" style="margin-top:14px; color:rgba(255,255,255,.86); line-height:1.6; font-size:16px; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; text-overflow:ellipsis; width:100%;"></p>
+        <div style="margin-top:18px; display:flex; gap:12px; align-items:center;">
+          <a id="projVisit" class="px-4 py-2 rounded-md bg-red-600" href="#" target="_blank">Visitar</a>
+          <div id="projDots" class="carouselDots"></div>
+        </div>
+      </div>
+      <button id="projNext" class="carouselBtn">›</button>
+    </div>
+  </div>
+</section>
+
+
+</main>
+
+<footer class="footer">© 2025 Manto • LuaU Developer</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
