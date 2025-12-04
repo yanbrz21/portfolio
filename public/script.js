@@ -20,6 +20,7 @@ const universeIds = [
     "8837249061",
     "7335244026",
     "2373810769",
+    "7559569212",
 ];
 
 const img = document.getElementById('projImg');
