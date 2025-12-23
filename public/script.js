@@ -95,6 +95,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // PROJECTS CAROUSEL
 // ======================
 
+const AUTOPLAY_DURATION = 12;
+
 // IDs dos jogos do Roblox
 const universeIds = [
   "8606799872",
@@ -235,7 +237,7 @@ function startAutoplay() {
     autoplayProgressBar.style.animation = 'none';
     autoplayProgressBar.offsetHeight; // Trigger reflow
     autoplayProgressBar.classList.add('animating');
-    autoplayProgressBar.style.animation = 'fillProgress 5s linear forwards';
+    autoplayProgressBar.style.animation = `fillProgress ${AUTOPLAY_DURATION}s linear forwards`;
   }
   
   autoplayInterval = setInterval(() => {
@@ -246,9 +248,9 @@ function startAutoplay() {
     if (autoplayProgressBar) {
       autoplayProgressBar.style.animation = 'none';
       autoplayProgressBar.offsetHeight; // Trigger reflow
-      autoplayProgressBar.style.animation = 'fillProgress 5s linear forwards';
+      autoplayProgressBar.style.animation = `fillProgress ${AUTOPLAY_DURATION}s linear forwards`;
     }
-  }, 5000);
+  }, AUTOPLAY_DURATION * 1000);
 }
 
 function stopAutoplay() {
