@@ -1,16 +1,99 @@
-// Intersection Observer para animações de scroll
-const observer = new IntersectionObserver(entries => {
+// Custom Cursor
+const cursor = document.getElementById('customCursor');
+const cursorDot = document.getElementById('customCursorDot');
+
+document.addEventListener('mousemove', (e) => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+  cursorDot.style.left = e.clientX + 'px';
+  cursorDot.style.top = e.clientY + 'px';
+});
+
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.transform = 'scale(1.5)';
+    cursor.style.borderColor = 'var(--red)';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.transform = 'scale(1)';
+    cursor.style.borderColor = 'var(--red)';
+  });
+});
+
+// Scroll Progress Bar
+window.addEventListener('scroll', () => {
+  const scrollProgress = document.getElementById('scrollProgress');
+  const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const scrolled = (window.scrollY / scrollHeight) * 100;
+  scrollProgress.style.width = scrolled + '%';
+});
+
+// Navbar scroll effect
+window.addEventListener('scroll', () => {
+  const navbar = document.getElementById('navbar');
+  if (window.scrollY > 50) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+});
+
+// Active nav link
+const navLinks = document.querySelectorAll('.nav-link');
+const sections = document.querySelectorAll('section[id]');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop;
+    const sectionHeight = section.clientHeight;
+    if (window.scrollY >= sectionTop - 200) {
+      current = section.getAttribute('id');
+    }
+  });
+  
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href').slice(1) === current) {
+      link.classList.add('active');
+    }
+  });
+});
+
+// Scroll Reveal Animation
+const revealElements = document.querySelectorAll('.reveal');
+
+const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      entry.target.classList.add('show');
-      entry.target.querySelectorAll('.fade').forEach((el, index) => {
-        setTimeout(() => el.classList.add('show'), index * 100);
+      entry.target.classList.add('active');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+});
+
+revealElements.forEach(el => revealObserver.observe(el));
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
       });
     }
   });
-}, { threshold: 0.12 });
+});
 
-document.querySelectorAll('.scrollReveal').forEach(el => observer.observe(el));
+// ======================
+// PROJECTS CAROUSEL
+// ======================
 
 // IDs dos jogos do Roblox
 const universeIds = [
@@ -33,6 +116,10 @@ const visit = document.getElementById('projVisit');
 const prev = document.getElementById('projPrev');
 const next = document.getElementById('projNext');
 const dots = document.getElementById('projDots');
+
+// Elementos do autoplay progress
+const autoplayProgressContainer = document.getElementById('autoplayProgressContainer');
+const autoplayProgressBar = document.getElementById('autoplayProgressBar');
 
 let projects = [];
 let index = 0;
@@ -90,20 +177,16 @@ function updateDots() {
 
 // Animação de transição
 function animate() {
-  // Fade out
   img.classList.remove('show');
   title.classList.remove('show');
   meta.classList.remove('show');
   desc.classList.remove('show');
   
-  // Adicionar classe de loading
   img.classList.add('loading-skeleton');
   
   setTimeout(() => {
-    // Fade in
     img.classList.remove('loading-skeleton');
     img.classList.add('show');
-    
     setTimeout(() => title.classList.add('show'), 100);
     setTimeout(() => meta.classList.add('show'), 200);
     setTimeout(() => desc.classList.add('show'), 300);
@@ -113,15 +196,11 @@ function animate() {
 // Renderizar projeto atual
 function render() {
   const p = projects[index];
-  
-  // Animar transição
   animate();
   
-  // Atualizar imagem
   img.src = p.image;
   img.onclick = () => window.open(p.url, '_blank');
   
-  // Truncar título
   const maxTitleLength = 30;
   let projectTitle = p.name;
   if (projectTitle.length > maxTitleLength) {
@@ -130,7 +209,6 @@ function render() {
   
   title.textContent = projectTitle;
   
-  // Formatar estatísticas
   const playerCount = p.playing.toLocaleString();
   const visitCount = p.visits.toLocaleString();
   
@@ -145,31 +223,50 @@ function render() {
   updateDots();
 }
 
-// Navegação
-prev.onclick = () => {
-  index = (index - 1 + projects.length) % projects.length;
-  render();
-  resetAutoplay();
-};
-
-next.onclick = () => {
-  index = (index + 1) % projects.length;
-  render();
-  resetAutoplay();
-};
-
-// Autoplay do carrossel
+// Autoplay do carrossel com barra de progresso
 function startAutoplay() {
+  // Mostrar a barra com animação
+  if (autoplayProgressContainer) {
+    autoplayProgressContainer.classList.add('active');
+  }
+  
+  // Reset e iniciar animação da barra
+  if (autoplayProgressBar) {
+    autoplayProgressBar.style.animation = 'none';
+    autoplayProgressBar.offsetHeight; // Trigger reflow
+    autoplayProgressBar.classList.add('animating');
+    autoplayProgressBar.style.animation = 'fillProgress 5s linear forwards';
+  }
+  
   autoplayInterval = setInterval(() => {
     index = (index + 1) % projects.length;
     render();
-  }, 5000); // Muda a cada 5 segundos
+    
+    // Reiniciar a animação da barra após trocar de projeto
+    if (autoplayProgressBar) {
+      autoplayProgressBar.style.animation = 'none';
+      autoplayProgressBar.offsetHeight; // Trigger reflow
+      autoplayProgressBar.style.animation = 'fillProgress 5s linear forwards';
+    }
+  }, 5000);
 }
 
 function stopAutoplay() {
   if (autoplayInterval) {
     clearInterval(autoplayInterval);
     autoplayInterval = null;
+  }
+  
+  // Esconder a barra com animação
+  if (autoplayProgressContainer) {
+    autoplayProgressContainer.classList.remove('active');
+  }
+  
+  // Parar a animação da barra
+  if (autoplayProgressBar) {
+    autoplayProgressBar.classList.remove('animating');
+    autoplayProgressBar.style.animation = 'none';
+    autoplayProgressBar.style.width = '0%';
   }
 }
 
@@ -181,8 +278,39 @@ function resetAutoplay() {
 // Pausar autoplay ao hover
 const carouselMain = document.getElementById('carouselMain');
 if (carouselMain) {
-  carouselMain.addEventListener('mouseenter', stopAutoplay);
-  carouselMain.addEventListener('mouseleave', startAutoplay);
+  carouselMain.addEventListener('mouseenter', () => {
+    stopAutoplay();
+  });
+  
+  carouselMain.addEventListener('mouseleave', () => {
+    startAutoplay();
+  });
+  
+  // Mouse tracking for carousel
+  carouselMain.addEventListener('mousemove', (e) => {
+    const rect = carouselMain.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    carouselMain.style.setProperty('--mouse-x', x + '%');
+    carouselMain.style.setProperty('--mouse-y', y + '%');
+  });
+}
+
+// Navegação
+if (prev) {
+  prev.onclick = () => {
+    index = (index - 1 + projects.length) % projects.length;
+    render();
+    resetAutoplay();
+  };
+}
+
+if (next) {
+  next.onclick = () => {
+    index = (index + 1) % projects.length;
+    render();
+    resetAutoplay();
+  };
 }
 
 // Keyboard navigation
@@ -202,7 +330,6 @@ async function fetchRobloxUser(id) {
     
     if (!user || !user.id) return;
     
-    // Atualizar avatar com animação
     const avatarImg = document.getElementById('robloxAvatar');
     avatarImg.style.opacity = '0';
     avatarImg.src = user.avatarUrl;
@@ -211,10 +338,8 @@ async function fetchRobloxUser(id) {
       avatarImg.style.opacity = '1';
     };
     
-    // Atualizar informações
     document.getElementById('robloxUsername').textContent = user.username;
     
-    // Atualizar todos os links do Roblox
     const profileUrl = `https://www.roblox.com/users/${user.id}/profile`;
     document.querySelectorAll('#robloxProfileLink, #robloxContactLink, #robloxSocialLink').forEach(link => {
       link.href = profileUrl;
@@ -227,10 +352,8 @@ async function fetchRobloxUser(id) {
 
 // Inicializar
 (async () => {
-  // Fetch usuário
   fetchRobloxUser('72538349');
   
-  // Fetch projetos
   const data = await fetchProjects();
   
   if (!Array.isArray(data) || data.length === 0) {
@@ -253,23 +376,8 @@ async function fetchRobloxUser(id) {
   
   createDots();
   render();
+  startAutoplay();
 })();
-
-// Adicionar animação de digitação ao título
-function typeWriter(element, text, speed = 50) {
-  let i = 0;
-  element.textContent = '';
-  
-  function type() {
-    if (i < text.length) {
-      element.textContent += text.charAt(i);
-      i++;
-      setTimeout(type, speed);
-    }
-  }
-  
-  type();
-}
 
 // Animação de contagem nos números
 function animateNumber(element, target, duration = 1000) {

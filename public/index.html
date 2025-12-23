@@ -10,1193 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="shortcut icon" href="./img/logo.png" type="image/x-icon">
-<style>
-:root {
-  --red: #ef4444;
-  --red-dark: #dc2626;
-  --red-glow: rgba(239, 68, 68, 0.4);
-  --dark-bg: #0a0a0a;
-  --card-bg: #111111;
-  --border-color: rgba(255, 255, 255, 0.06);
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --text-muted: rgba(255, 255, 255, 0.5);
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 100px;
-}
-
-body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background: var(--dark-bg);
-  color: var(--text-primary);
-  overflow-x: hidden;
-  line-height: 1.6;
-}
-
-/* Cursor personalizado */
-.custom-cursor {
-  width: 20px;
-  height: 20px;
-  border: 2px solid var(--red);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  transition: all 0.1s ease;
-  mix-blend-mode: difference;
-}
-
-.custom-cursor-dot {
-  width: 6px;
-  height: 6px;
-  background: var(--red);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  transition: all 0.05s ease;
-}
-
-/* Background Effects */
-.bg-gradient {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(239, 68, 68, 0.15), transparent),
-              radial-gradient(ellipse 60% 50% at 50% 120%, rgba(239, 68, 68, 0.1), transparent);
-  pointer-events: none;
-  z-index: 0;
-  animation: gradientShift 10s ease infinite alternate;
-}
-
-@keyframes gradientShift {
-  0% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-.bg-grid {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 50px 50px;
-  pointer-events: none;
-  z-index: 0;
-  animation: gridMove 20s linear infinite;
-}
-
-@keyframes gridMove {
-  0% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(50px, 50px);
-  }
-}
-
-/* Floating particles */
-.floating-particles {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-  overflow: hidden;
-}
-
-.particle {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background: var(--red);
-  border-radius: 50%;
-  opacity: 0.3;
-  animation: float 15s infinite;
-}
-
-.particle:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 12s; }
-.particle:nth-child(2) { left: 20%; animation-delay: 2s; animation-duration: 15s; }
-.particle:nth-child(3) { left: 30%; animation-delay: 4s; animation-duration: 18s; }
-.particle:nth-child(4) { left: 40%; animation-delay: 1s; animation-duration: 14s; }
-.particle:nth-child(5) { left: 50%; animation-delay: 3s; animation-duration: 16s; }
-.particle:nth-child(6) { left: 60%; animation-delay: 5s; animation-duration: 13s; }
-.particle:nth-child(7) { left: 70%; animation-delay: 2s; animation-duration: 17s; }
-.particle:nth-child(8) { left: 80%; animation-delay: 4s; animation-duration: 19s; }
-.particle:nth-child(9) { left: 90%; animation-delay: 1s; animation-duration: 15s; }
-
-@keyframes float {
-  0% {
-    transform: translateY(100vh) scale(0);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.3;
-  }
-  90% {
-    opacity: 0.3;
-  }
-  100% {
-    transform: translateY(-100vh) scale(1);
-    opacity: 0;
-  }
-}
-
-/* Navigation */
-.nav-wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background: rgba(10, 10, 10, 0.8);
-  backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid var(--border-color);
-  animation: slideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  transition: all 0.3s ease;
-}
-
-.nav-wrapper.scrolled {
-  background: rgba(10, 10, 10, 0.95);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-}
-
-@keyframes slideDown {
-  from {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-.nav-container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 1rem 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.nav-logo {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  text-decoration: none;
-  color: var(--text-primary);
-  transition: transform 0.3s ease;
-}
-
-.nav-logo:hover {
-  transform: translateX(4px);
-}
-
-.nav-logo img {
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  animation: logoFloat 3s ease-in-out infinite;
-}
-
-@keyframes logoFloat {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
-}
-
-.nav-logo:hover img {
-  box-shadow: 0 0 20px var(--red-glow);
-  animation: logoSpin 0.6s ease;
-}
-
-@keyframes logoSpin {
-  0% {
-    transform: rotate(0deg) scale(1);
-  }
-  50% {
-    transform: rotate(180deg) scale(1.1);
-  }
-  100% {
-    transform: rotate(360deg) scale(1);
-  }
-}
-
-.nav-brand {
-  font-size: 1.25rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, #fff, var(--red));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: textShine 3s ease-in-out infinite;
-  background-size: 200% auto;
-}
-
-@keyframes textShine {
-  0%, 100% {
-    background-position: 0% center;
-  }
-  50% {
-    background-position: 100% center;
-  }
-}
-
-.nav-links {
-  display: flex;
-  gap: 2rem;
-  list-style: none;
-}
-
-.nav-links a {
-  color: var(--text-secondary);
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.95rem;
-  position: relative;
-  transition: color 0.3s ease;
-}
-
-.nav-links a::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background: var(--red);
-  transition: all 0.3s ease;
-  transform: translateX(-50%);
-}
-
-.nav-links a:hover {
-  color: var(--text-primary);
-}
-
-.nav-links a:hover::after {
-  width: 100%;
-}
-
-.nav-links a.active::after {
-  width: 100%;
-}
-
-.btn {
-  padding: 0.625rem 1.25rem;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  border: none;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-
-.btn::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: width 0.6s ease, height 0.6s ease;
-}
-
-.btn:hover::before {
-  width: 300px;
-  height: 300px;
-}
-
-.btn-primary {
-  background: var(--red);
-  color: white;
-  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
-}
-
-.btn-primary:hover {
-  background: var(--red-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.6);
-}
-
-.btn-primary:active {
-  transform: translateY(0);
-}
-
-/* Main Content */
-main {
-  position: relative;
-  z-index: 1;
-  padding-top: 80px;
-}
-
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-
-/* Hero Section */
-.hero {
-  min-height: calc(100vh - 80px);
-  display: flex;
-  align-items: center;
-  position: relative;
-  padding: 4rem 0;
-}
-
-.hero-content {
-  max-width: 800px;
-  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 50px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--red);
-  margin-bottom: 1.5rem;
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
-  }
-}
-
-.hero-title {
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
-  font-weight: 900;
-  line-height: 1.1;
-  margin-bottom: 1.5rem;
-  letter-spacing: -0.02em;
-}
-
-.gradient-text {
-  background: linear-gradient(135deg, #ffffff 0%, var(--red) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: gradientMove 3s ease infinite;
-  background-size: 200% auto;
-}
-
-@keyframes gradientMove {
-  0%, 100% {
-    background-position: 0% center;
-  }
-  50% {
-    background-position: 100% center;
-  }
-}
-
-.hero-description {
-  font-size: 1.25rem;
-  color: var(--text-secondary);
-  margin-bottom: 2rem;
-  max-width: 600px;
-  line-height: 1.7;
-}
-
-.hero-stats {
-  display: flex;
-  gap: 3rem;
-  margin: 3rem 0;
-}
-
-.stat-item {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-
-.stat-item::before {
-  content: '';
-  position: absolute;
-  top: -10px;
-  left: -10px;
-  right: -10px;
-  bottom: -10px;
-  background: linear-gradient(135deg, var(--red-glow), transparent);
-  border-radius: 12px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: -1;
-}
-
-.stat-item:hover::before {
-  opacity: 1;
-}
-
-.stat-number {
-  font-size: 2.5rem;
-  font-weight: 800;
-  color: var(--red);
-  line-height: 1;
-  margin-bottom: 0.5rem;
-  animation: countUp 1s ease-out;
-}
-
-@keyframes countUp {
-  from {
-    opacity: 0;
-    transform: scale(0.5);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.stat-label {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-/* Section Styling */
-.section {
-  padding: 8rem 0;
-  position: relative;
-}
-
-.section-header {
-  text-align: center;
-  margin-bottom: 4rem;
-  animation: fadeInUp 0.8s ease both;
-}
-
-.section-label {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 50px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--red);
-  margin-bottom: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  animation: labelFloat 2s ease-in-out infinite;
-}
-
-@keyframes labelFloat {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
-}
-
-.section-title {
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 800;
-  margin-bottom: 1rem;
-  line-height: 1.2;
-}
-
-/* About Section */
-.about-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.5fr;
-  gap: 4rem;
-  align-items: start;
-}
-
-.about-image-wrapper {
-  position: relative;
-  animation: fadeInLeft 0.8s ease both;
-}
-
-@keyframes fadeInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-.about-image {
-  width: 100%;
-  max-width: 400px;
-  aspect-ratio: 1;
-  border-radius: 20px;
-  object-fit: cover;
-  border: 1px solid var(--border-color);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-}
-
-.about-image::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 20px;
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), transparent);
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-.about-image:hover {
-  transform: scale(1.02) rotate(1deg);
-  box-shadow: 0 30px 80px rgba(239, 68, 68, 0.3);
-}
-
-.about-image:hover::after {
-  opacity: 1;
-}
-
-.info-item {
-  padding: 1.25rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.info-item::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.1), transparent);
-  transition: left 0.6s ease;
-}
-
-.info-item:hover::before {
-  left: 100%;
-}
-
-.info-item:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: var(--red);
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 10px 30px rgba(239, 68, 68, 0.2);
-}
-
-/* Skills Grid */
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  margin-top: 3rem;
-}
-
-.skill-card {
-  padding: 2rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-color);
-  border-radius: 16px;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.skill-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--red), transparent);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.4s ease;
-}
-
-.skill-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, rgba(239, 68, 68, 0.05), transparent);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.skill-card:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: var(--red);
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 20px 40px rgba(239, 68, 68, 0.2);
-}
-
-.skill-card:hover::before {
-  transform: scaleX(1);
-}
-
-.skill-card:hover::after {
-  opacity: 1;
-}
-
-.skill-icon {
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(135deg, var(--red), var(--red-dark));
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);
-  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  position: relative;
-  z-index: 1;
-}
-
-.skill-card:hover .skill-icon {
-  transform: rotateY(360deg) scale(1.1);
-}
-
-/* Projects Carousel */
-.projects-carousel {
-  position: relative;
-  margin-top: 3rem;
-  padding: 2rem 0;
-}
-
-.carousel-container {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  position: relative;
-}
-
-.carousel-main {
-  flex: 1;
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 3rem;
-  padding: 2.5rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-color);
-  border-radius: 20px;
-  transition: all 0.4s ease;
-  align-items: center;
-  min-height: 400px;
-  overflow: hidden;
-  position: relative;
-}
-
-.carousel-main::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(239, 68, 68, 0.1), transparent 50%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-
-.carousel-main:hover::before {
-  opacity: 1;
-}
-
-.carousel-main:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: var(--red);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-}
-
-.project-image-container {
-  position: relative;
-  width: 100%;
-  height: 350px;
-  border-radius: 12px;
-  overflow: hidden;
-  cursor: pointer;
-}
-
-#projImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-}
-
-.project-image-container::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.3), transparent);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-}
-
-.project-image-container:hover #projImg {
-  transform: scale(1.05);
-}
-
-.project-image-container:hover::after {
-  opacity: 1;
-}
-
-.project-content {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  z-index: 1;
-}
-
-#projTitle {
-  font-size: 1.75rem;
-  font-weight: 800;
-  background: linear-gradient(135deg, #ffffff, var(--red));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 0.5rem;
-  transition: all 0.3s ease;
-}
-
-#projMeta {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-bottom: 0.5rem;
-}
-
-.project-stat {
-  padding: 0.375rem 0.75rem;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 6px;
-  font-size: 0.875rem;
-  color: var(--red);
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-
-.project-stat:hover {
-  background: rgba(239, 68, 68, 0.2);
-  transform: translateY(-2px);
-}
-
-#projDesc {
-  font-size: 1rem;
-  color: var(--text-secondary);
-  line-height: 1.7;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.carousel-nav {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  margin-top: 1.5rem;
-}
-
-.carouselBtn {
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  color: var(--text-primary);
-  font-size: 24px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.carouselBtn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, var(--red), var(--red-dark));
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.carouselBtn:hover {
-  border-color: var(--red);
-  transform: scale(1.1);
-  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
-}
-
-.carouselBtn:hover::before {
-  opacity: 1;
-}
-
-.carouselBtn span {
-  position: relative;
-  z-index: 1;
-}
-
-.carouselBtn:active {
-  transform: scale(0.95);
-}
-
-.carousel-dots {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.dot::after {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  border: 2px solid var(--red);
-  border-radius: 50%;
-  opacity: 0;
-  transform: scale(0);
-  transition: all 0.3s ease;
-}
-
-.dot:hover {
-  background: rgba(255, 255, 255, 0.4);
-  transform: scale(1.2);
-}
-
-.dot.active {
-  background: var(--red);
-  width: 24px;
-  border-radius: 4px;
-  box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
-}
-
-.dot.active::after {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* Loading Animation */
-.loading-skeleton {
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.03) 0%,
-    rgba(255, 255, 255, 0.08) 50%,
-    rgba(255, 255, 255, 0.03) 100%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-/* Contact Section */
-.contact-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  margin: 3rem 0;
-}
-
-.contact-card {
-  padding: 2rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-color);
-  border-radius: 16px;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  text-decoration: none;
-  color: inherit;
-  display: block;
-  position: relative;
-  overflow: hidden;
-}
-
-.contact-card::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: radial-gradient(circle, rgba(239, 68, 68, 0.2), transparent);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: width 0.6s ease, height 0.6s ease;
-}
-
-.contact-card:hover::before {
-  width: 400px;
-  height: 400px;
-}
-
-.contact-card:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: var(--red);
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 20px 40px rgba(239, 68, 68, 0.2);
-}
-
-.contact-icon {
-  width: 50px;
-  height: 50px;
-  background: linear-gradient(135deg, var(--red), var(--red-dark));
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 1rem;
-  font-size: 1.5rem;
-  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
-  transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  position: relative;
-  z-index: 1;
-}
-
-.contact-card:hover .contact-icon {
-  transform: rotateY(360deg) scale(1.1);
-}
-
-/* Footer */
-.footer {
-  padding: 3rem 0;
-  text-align: center;
-  border-top: 1px solid var(--border-color);
-  background: rgba(0, 0, 0, 0.3);
-  position: relative;
-}
-
-.social-link {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  color: var(--text-primary);
-  text-decoration: none;
-  transition: all 0.3s ease;
-  font-size: 1.25rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.social-link::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--red);
-  transform: translateY(100%);
-  transition: transform 0.3s ease;
-}
-
-.social-link:hover::before {
-  transform: translateY(0);
-}
-
-.social-link span {
-  position: relative;
-  z-index: 1;
-}
-
-.social-link:hover {
-  border-color: var(--red);
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
-}
-
-/* Scroll Reveal */
-.reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Twitter/X Icon Animation */
-.contact-card:hover svg,
-.social-link:hover svg {
-  animation: twitterSpin 0.6s ease;
-}
-
-@keyframes twitterSpin {
-  0% {
-    transform: rotate(0deg) scale(1);
-  }
-  50% {
-    transform: rotate(180deg) scale(1.2);
-  }
-  100% {
-    transform: rotate(360deg) scale(1);
-  }
-}
-
-/* Email link hover effect */
-a[href^="mailto"] {
-  position: relative;
-  transition: all 0.3s ease;
-}
-
-a[href^="mailto"]:hover {
-  color: var(--red);
-}
-
-a[href^="mailto"]::after {
-  content: '→';
-  position: absolute;
-  right: -20px;
-  opacity: 0;
-  transition: all 0.3s ease;
-}
-
-a[href^="mailto"]:hover::after {
-  right: -25px;
-  opacity: 1;
-}
-
-/* Footer hover effects */
-.footer ul a:hover {
-  color: var(--red) !important;
-  transform: translateX(3px);
-  display: inline-block;
-}
-
-
-.fade {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.fade.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Responsive */
-@media (max-width: 1024px) {
-  .about-grid {
-    grid-template-columns: 1fr;
-    gap: 3rem;
-  }
-  
-  .carousel-main {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 768px) {
-  .nav-links {
-    display: none;
-  }
-  
-  .hero-stats {
-    flex-direction: column;
-    gap: 2rem;
-  }
-  
-  .skills-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .carousel-container {
-    flex-direction: column;
-  }
-}
-
-/* Scroll progress bar */
-.scroll-progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--red), var(--red-dark));
-  z-index: 9999;
-  transition: width 0.1s ease;
-  box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
-}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -1282,9 +96,9 @@ a[href^="mailto"]:hover::after {
           </div>
         </div>
         
-        <div class="hero-actions" style="display:flex;gap:1rem;flex-wrap:wrap;">
+        <div class="hero-actions">
           <a href="#projects" class="btn btn-primary">View My Work</a>
-          <a href="#contact" class="btn" style="background:rgba(255,255,255,0.05);color:white;border:1px solid var(--border-color);">Get In Touch</a>
+          <a href="#contact" class="btn btn-secondary">Get In Touch</a>
         </div>
       </div>
     </div>
@@ -1296,7 +110,7 @@ a[href^="mailto"]:hover::after {
       <div class="section-header reveal">
         <span class="section-label">About Me</span>
         <h2 class="section-title">Passionate About Game Development</h2>
-        <p style="font-size:1.125rem;color:var(--text-secondary);max-width:700px;margin:0 auto;">
+        <p class="section-description">
           Building the future of Roblox gaming, one script at a time
         </p>
       </div>
@@ -1307,39 +121,39 @@ a[href^="mailto"]:hover::after {
         </div>
         
         <div class="about-content">
-          <p style="font-size:1.125rem;color:var(--text-secondary);margin-bottom:1.5rem;line-height:1.8;" class="reveal">
+          <p class="about-text reveal">
             Hello! I'm Manto, an 18-year-old LuaU developer from Brazil with a passion for 
             creating immersive Roblox experiences. I specialize in building robust game systems, 
             custom mechanics, and scalable architectures that bring games to life.
           </p>
           
-          <p style="font-size:1.125rem;color:var(--text-secondary);margin-bottom:1.5rem;line-height:1.8;" class="reveal">
+          <p class="about-text reveal">
             With over 2 years of experience, I've mastered frameworks like Knit and ProfileService, 
             and I'm constantly pushing the boundaries of what's possible in Roblox development.
           </p>
           
-          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin:2rem 0;">
+          <div class="info-grid">
             <div class="info-item reveal">
-              <div style="font-size:0.875rem;color:var(--text-muted);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.05em;">Name</div>
-              <div style="font-size:1.125rem;font-weight:600;color:var(--text-primary);">Manto</div>
+              <div class="info-label">Name</div>
+              <div class="info-value">Manto</div>
             </div>
             <div class="info-item reveal">
-              <div style="font-size:0.875rem;color:var(--text-muted);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.05em;">Location</div>
-              <div style="font-size:1.125rem;font-weight:600;color:var(--text-primary);">Brazil (UTC-3)</div>
+              <div class="info-label">Location</div>
+              <div class="info-value">Brazil (UTC-3)</div>
             </div>
             <div class="info-item reveal">
-              <div style="font-size:0.875rem;color:var(--text-muted);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.05em;">Experience</div>
-              <div style="font-size:1.125rem;font-weight:600;color:var(--text-primary);">2+ Years</div>
+              <div class="info-label">Experience</div>
+              <div class="info-value">2+ Years</div>
             </div>
             <div class="info-item reveal">
-              <div style="font-size:0.875rem;color:var(--text-muted);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.05em;">Discord</div>
-              <div style="font-size:1.125rem;font-weight:600;color:var(--text-primary);">@maquinadotempo</div>
+              <div class="info-label">Discord</div>
+              <div class="info-value">@maquinadotempo</div>
             </div>
           </div>
           
-          <div style="display:flex;gap:1rem;flex-wrap:wrap;" class="reveal">
+          <div class="hero-actions reveal">
             <a href="#contact" class="btn btn-primary">Hire Me</a>
-            <a id="robloxProfileLink" href="#" target="_blank" class="btn" style="background:rgba(255,255,255,0.05);color:white;border:1px solid var(--border-color);">Roblox Profile</a>
+            <a id="robloxProfileLink" href="#" target="_blank" class="btn btn-secondary">Roblox Profile</a>
           </div>
         </div>
       </div>
@@ -1352,55 +166,55 @@ a[href^="mailto"]:hover::after {
       <div class="section-header reveal">
         <span class="section-label">Skills & Tools</span>
         <h2 class="section-title">Technologies I Master</h2>
-        <p style="font-size:1.125rem;color:var(--text-secondary);max-width:700px;margin:0 auto;">
+        <p class="section-description">
           Specialized in modern Roblox development frameworks and tools
         </p>
       </div>
       
       <div class="skills-grid">
-        <div class="skill-card reveal">
+        <a href="https://sleitnick.github.io/Knit/" target="_blank" class="skill-card reveal" data-skill="knit">
           <div class="skill-icon">
-            <img src="./img/knit.png" alt="Knit" style="width:36px;height:36px;object-fit:contain;"/>
+            <img src="./img/knit.png" alt="Knit"/>
           </div>
-          <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:0.75rem;color:var(--text-primary);">Knit Framework</h3>
-          <p style="font-size:0.95rem;color:var(--text-secondary);line-height:1.6;">
+          <h3 class="skill-title">Knit Framework</h3>
+          <p class="skill-description">
             Expert in building scalable client-server architectures with Knit, 
             creating modular and maintainable game systems.
           </p>
-        </div>
+        </a>
         
-        <div class="skill-card reveal">
+        <a href="https://madstudioroblox.github.io/ProfileService/" target="_blank" class="skill-card reveal" data-skill="profileservice">
           <div class="skill-icon">
-            <img src="./img/profilestore.png" alt="ProfileService" style="width:36px;height:36px;object-fit:contain;"/>
+            <img src="./img/profilestore.png" alt="ProfileService"/>
           </div>
-          <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:0.75rem;color:var(--text-primary);">ProfileService</h3>
-          <p style="font-size:0.95rem;color:var(--text-secondary);line-height:1.6;">
+          <h3 class="skill-title">ProfileService</h3>
+          <p class="skill-description">
             Proficient in data management and player progression systems using 
             ProfileService for reliable data persistence.
           </p>
-        </div>
+        </a>
         
-        <div class="skill-card reveal">
+        <a href="https://create.roblox.com/docs/reference/engine/classes/ModuleScript" target="_blank" class="skill-card reveal" data-skill="modules">
           <div class="skill-icon">
-            <img src="./img/module.png" alt="ModuleScripts" style="width:36px;height:36px;object-fit:contain;"/>
+            <img src="./img/module.png" alt="ModuleScripts"/>
           </div>
-          <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:0.75rem;color:var(--text-primary);">ModuleScripts</h3>
-          <p style="font-size:0.95rem;color:var(--text-secondary);line-height:1.6;">
+          <h3 class="skill-title">ModuleScripts</h3>
+          <p class="skill-description">
             Creating reusable, efficient module systems that streamline development 
             and promote code reusability across projects.
           </p>
-        </div>
+        </a>
         
-        <div class="skill-card reveal">
+        <a href="https://create.roblox.com/docs/cloud-services/data-stores" target="_blank" class="skill-card reveal" data-skill="datastores">
           <div class="skill-icon">
-            <img src="./img/datastore.png" alt="DataStores" style="width:36px;height:36px;object-fit:contain;"/>
+            <img src="./img/datastore.png" alt="DataStores"/>
           </div>
-          <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:0.75rem;color:var(--text-primary);">DataStores</h3>
-          <p style="font-size:0.95rem;color:var(--text-secondary);line-height:1.6;">
+          <h3 class="skill-title">DataStores</h3>
+          <p class="skill-description">
             Advanced knowledge of Roblox DataStores, implementing robust save systems 
             with error handling and data validation.
           </p>
-        </div>
+        </a>
       </div>
     </div>
   </section>
@@ -1411,7 +225,7 @@ a[href^="mailto"]:hover::after {
       <div class="section-header reveal">
         <span class="section-label">Portfolio</span>
         <h2 class="section-title">Featured Projects</h2>
-        <p style="font-size:1.125rem;color:var(--text-secondary);max-width:700px;margin:0 auto;">
+        <p class="section-description">
           Showcasing my best work in Roblox game development
         </p>
       </div>
@@ -1439,223 +253,128 @@ a[href^="mailto"]:hover::after {
               </div>
             </div>
           </div>
+          
+          <!-- Autoplay Progress Bar -->
+          <div class="autoplay-progress-container" id="autoplayProgressContainer">
+            <div class="autoplay-progress-bar" id="autoplayProgressBar"></div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-<!-- Contact Section -->
-<section id="contact" class="section">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="section-label">Get In Touch</span>
-      <h2 class="section-title">Let's Work Together</h2>
-      <p style="font-size:1.125rem;color:var(--text-secondary);max-width:700px;margin:0 auto;">
-        I'm always interested in new projects and opportunities. Let's create something amazing!
-      </p>
-    </div>
-    
-    <div style="max-width:1000px;margin:0 auto;">
-      <div class="contact-grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
-        <a href="https://discord.com/users/774330520527306802" target="_blank" class="contact-card reveal">
-          <div class="contact-icon">💬</div>
-          <div style="font-size:0.875rem;color:var(--text-muted);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.05em;text-align:center;">Discord</div>
-          <div style="font-size:1.125rem;font-weight:600;color:var(--text-primary);text-align:center;">@maquinadotempo</div>
-        </a>
-        
-        <a href="https://x.com/vulgomanto" target="_blank" class="contact-card reveal">
-          <div class="contact-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="color:white;">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-            </svg>
-          </div>
-          <div style="font-size:0.875rem;color:var(--text-muted);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.05em;text-align:center;">Twitter/X</div>
-          <div style="font-size:1.125rem;font-weight:600;color:var(--text-primary);text-align:center;">@vulgomanto</div>
-        </a>
-        
-        <a href="mailto:contatorealmanto@gmail.com" class="contact-card reveal">
-          <div class="contact-icon">📧</div>
-          <div style="font-size:0.875rem;color:var(--text-muted);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.05em;text-align:center;">Email</div>
-          <div style="font-size:1.125rem;font-weight:600;color:var(--text-primary);text-align:center;word-break:break-all;">contatorealmanto@gmail.com</div>
-        </a>
-        
-        <a id="robloxContactLink" href="#" target="_blank" class="contact-card reveal">
-          <div class="contact-icon">🎮</div>
-          <div style="font-size:0.875rem;color:var(--text-muted);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.05em;text-align:center;">Roblox</div>
-          <div id="robloxUsername" style="font-size:1.125rem;font-weight:600;color:var(--text-primary);text-align:center;">Loading...</div>
-        </a>
-        
-        <div class="contact-card reveal">
-          <div class="contact-icon">🌎</div>
-          <div style="font-size:0.875rem;color:var(--text-muted);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.05em;text-align:center;">Location</div>
-          <div style="font-size:1.125rem;font-weight:600;color:var(--text-primary);text-align:center;">Brazil (UTC-3)</div>
-        </div>
+  <!-- Contact Section -->
+  <section id="contact" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Get In Touch</span>
+        <h2 class="section-title">Let's Work Together</h2>
+        <p class="section-description">
+          I'm always interested in new projects and opportunities. Let's create something amazing!
+        </p>
       </div>
       
-      <div style="margin-top:3rem;text-align:center;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;" class="reveal">
-        <a href="https://discord.com/users/774330520527306802" target="_blank" class="btn btn-primary">
-          💬 Discord
-        </a>
-        <a href="mailto:contatorealmanto@gmail.com" class="btn" style="background:rgba(255,255,255,0.05);color:white;border:1px solid var(--border-color);">
-          📧 Send Email
-        </a>
-        <a href="https://x.com/vulgomanto" target="_blank" class="btn" style="background:rgba(255,255,255,0.05);color:white;border:1px solid var(--border-color);">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:middle;">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-          </svg>
-          Twitter/X
-        </a>
+      <div class="contact-wrapper">
+        <div class="contact-grid">
+          <a href="https://discord.com/users/774330520527306802" target="_blank" class="contact-card reveal">
+            <div class="contact-icon">💬</div>
+            <div class="contact-label">Discord</div>
+            <div class="contact-value">@maquinadotempo</div>
+          </a>
+          
+          <a href="https://x.com/vulgomanto" target="_blank" class="contact-card reveal">
+            <div class="contact-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="color:white;">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </div>
+            <div class="contact-label">Twitter/X</div>
+            <div class="contact-value">@vulgomanto</div>
+          </a>
+          
+          <a href="mailto:contatorealmanto@gmail.com" class="contact-card reveal">
+            <div class="contact-icon">📧</div>
+            <div class="contact-label">Email</div>
+            <div class="contact-value">contatorealmanto</div>
+          </a>
+          
+          <a id="robloxContactLink" href="#" target="_blank" class="contact-card reveal">
+            <div class="contact-icon">🎮</div>
+            <div class="contact-label">Roblox</div>
+            <div id="robloxUsername" class="contact-value">Loading...</div>
+          </a>
+          
+          <div class="contact-card reveal">
+            <div class="contact-icon">🌎</div>
+            <div class="contact-label">Location</div>
+            <div class="contact-value">Brazil (UTC-3)</div>
+          </div>
+        </div>
+        
+        <div class="hero-actions reveal" style="margin-top: 3rem; justify-content: center;">
+          <a href="https://discord.com/users/774330520527306802" target="_blank" class="btn btn-primary">
+            💬 Discord
+          </a>
+          <a href="mailto:contatorealmanto@gmail.com" class="btn btn-secondary">
+            📧 Send Email
+          </a>
+          <a href="https://x.com/vulgomanto" target="_blank" class="btn btn-secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:middle;">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+            Twitter/X
+          </a>
+        </div>
       </div>
     </div>
-  </div>
-</section>
-
+  </section>
 </main>
 
 <!-- Footer -->
 <footer class="footer">
-  <div style="max-width:1400px;margin:0 auto;padding:0 2rem;">
-    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:2rem;">
-      <div style="color:var(--text-muted);font-size:0.95rem;">
-        © 2025 Manto. All rights reserved.
-      </div>
-      
-      <ul style="display:flex;gap:2rem;list-style:none;flex-wrap:wrap;">
-        <li><a href="#home" style="color:var(--text-muted);text-decoration:none;transition:color 0.3s ease;">Home</a></li>
-        <li><a href="#about" style="color:var(--text-muted);text-decoration:none;transition:color 0.3s ease;">About</a></li>
-        <li><a href="#projects" style="color:var(--text-muted);text-decoration:none;transition:color 0.3s ease;">Projects</a></li>
-        <li><a href="#contact" style="color:var(--text-muted);text-decoration:none;transition:color 0.3s ease;">Contact</a></li>
-      </ul>
-      
-      <div style="display:flex;gap:1rem;flex-wrap:wrap;">
-        <a href="https://discord.com/users/774330520527306802" target="_blank" class="social-link" title="Discord">
-          <span>💬</span>
-        </a>
-        <a href="https://x.com/vulgomanto" target="_blank" class="social-link" title="Twitter/X">
-          <span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-            </svg>
-          </span>
-        </a>
-        <a href="mailto:contatorealmanto@gmail.com" class="social-link" title="Email">
-          <span>📧</span>
-        </a>
-        <a id="robloxSocialLink" href="#" target="_blank" class="social-link" title="Roblox">
-          <span>🎮</span>
-        </a>
-      </div>
+  <div class="footer-content">
+    <div class="footer-text">
+      © 2025 Manto. All rights reserved.
     </div>
     
-    <div style="margin-top:2rem;padding-top:2rem;border-top:1px solid var(--border-color);text-align:center;">
-      <p style="color:var(--text-muted);font-size:0.875rem;margin:0;">
-        Built with ❤️ using LuaU, HTML, CSS & JavaScript
-      </p>
-      <p style="color:var(--text-muted);font-size:0.875rem;margin:0.5rem 0 0 0;">
-        <a href="mailto:contatorealmanto@gmail.com" style="color:var(--red);text-decoration:none;transition:opacity 0.3s ease;">contatorealmanto@gmail.com</a>
-      </p>
+    <ul class="footer-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    
+    <div class="social-links">
+      <a href="https://discord.com/users/774330520527306802" target="_blank" class="social-link" title="Discord">
+        <span>💬</span>
+      </a>
+      <a href="https://x.com/vulgomanto" target="_blank" class="social-link" title="Twitter/X">
+        <span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+        </span>
+      </a>
+      <a href="mailto:contatorealmanto@gmail.com" class="social-link" title="Email">
+        <span>📧</span>
+      </a>
+      <a id="robloxSocialLink" href="#" target="_blank" class="social-link" title="Roblox">
+        <span>🎮</span>
+      </a>
     </div>
   </div>
-</footer>
-
-
-<script>
-// Custom Cursor
-const cursor = document.getElementById('customCursor');
-const cursorDot = document.getElementById('customCursorDot');
-
-document.addEventListener('mousemove', (e) => {
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
-  cursorDot.style.left = e.clientX + 'px';
-  cursorDot.style.top = e.clientY + 'px';
-});
-
-document.querySelectorAll('a, button').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    cursor.style.transform = 'scale(1.5)';
-    cursor.style.borderColor = 'var(--red)';
-  });
-  el.addEventListener('mouseleave', () => {
-    cursor.style.transform = 'scale(1)';
-    cursor.style.borderColor = 'var(--red)';
-  });
-});
-
-// Scroll Progress Bar
-window.addEventListener('scroll', () => {
-  const scrollProgress = document.getElementById('scrollProgress');
-  const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-  const scrolled = (window.scrollY / scrollHeight) * 100;
-  scrollProgress.style.width = scrolled + '%';
-});
-
-// Navbar scroll effect
-window.addEventListener('scroll', () => {
-  const navbar = document.getElementById('navbar');
-  if (window.scrollY > 50) {
-    navbar.classList.add('scrolled');
-  } else {
-    navbar.classList.remove('scrolled');
-  }
-});
-
-// Active nav link
-const navLinks = document.querySelectorAll('.nav-link');
-const sections = document.querySelectorAll('section[id]');
-
-window.addEventListener('scroll', () => {
-  let current = '';
-  sections.forEach(section => {
-    const sectionTop = section.offsetTop;
-    const sectionHeight = section.clientHeight;
-    if (window.scrollY >= sectionTop - 200) {
-      current = section.getAttribute('id');
-    }
-  });
   
-  navLinks.forEach(link => {
-    link.classList.remove('active');
-    if (link.getAttribute('href').slice(1) === current) {
-      link.classList.add('active');
-    }
-  });
-});
-
-// Scroll Reveal Animation
-const revealElements = document.querySelectorAll('.reveal');
-
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('active');
-      revealObserver.unobserve(entry.target);
-    }
-  });
-}, {
-  threshold: 0.1,
-  rootMargin: '0px 0px -50px 0px'
-});
-
-revealElements.forEach(el => revealObserver.observe(el));
-
-// Smooth scroll for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      target.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }
-  });
-});
-</script>
+  <div class="footer-bottom">
+    <p class="footer-credit">
+      Built with ❤️ using LuaU, HTML, CSS & JavaScript
+    </p>
+    <p class="footer-email">
+      <a href="mailto:contatorealmanto@gmail.com">contatorealmanto@gmail.com</a>
+    </p>
+  </div>
+</footer>
 
 <script src="script.js"></script>
 
 </body>
 </html>
-
