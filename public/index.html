@@ -1622,18 +1622,6 @@ window.addEventListener('scroll', () => {
   });
 });
 
-// Mouse tracking for carousel
-const carouselMain = document.getElementById('carouselMain');
-if (carouselMain) {
-  carouselMain.addEventListener('mousemove', (e) => {
-    const rect = carouselMain.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    carouselMain.style.setProperty('--mouse-x', x + '%');
-    carouselMain.style.setProperty('--mouse-y', y + '%');
-  });
-}
-
 // Scroll Reveal Animation
 const revealElements = document.querySelectorAll('.reveal');
 
@@ -1670,3 +1658,4 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 </body>
 </html>
+
