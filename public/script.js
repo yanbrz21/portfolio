@@ -253,7 +253,6 @@ async function fetchRobloxUser(id) {
   
   createDots();
   render();
-  startAutoplay();
 })();
 
 // Adicionar animação de digitação ao título
