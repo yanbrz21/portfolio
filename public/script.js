@@ -1,25 +1,3 @@
-// Custom Cursor
-const cursor = document.getElementById('customCursor');
-const cursorDot = document.getElementById('customCursorDot');
-
-document.addEventListener('mousemove', (e) => {
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
-  cursorDot.style.left = e.clientX + 'px';
-  cursorDot.style.top = e.clientY + 'px';
-});
-
-document.querySelectorAll('a, button').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    cursor.style.transform = 'scale(1.5)';
-    cursor.style.borderColor = 'var(--red)';
-  });
-  el.addEventListener('mouseleave', () => {
-    cursor.style.transform = 'scale(1)';
-    cursor.style.borderColor = 'var(--red)';
-  });
-});
-
 // Mouse Light Effect - Luz suave que segue o mouse
 const mouseLight = document.getElementById('mouseLight');
 let mouseLightX = 0;
@@ -41,7 +19,7 @@ document.addEventListener('mousemove', (e) => {
 // Animação suave usando requestAnimationFrame
 function animateMouseLight() {
   // Interpolação suave (easing)
-  const speed = 0.15; // Quanto menor, mais suave (0.1 - 0.3)
+  const speed = 0.15;
   
   currentX += (mouseLightX - currentX) * speed;
   currentY += (mouseLightY - currentY) * speed;
@@ -145,8 +123,9 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // PROJECTS CAROUSEL
 // ======================
 
-// TEMPO DO AUTOPLAY (em segundos) - MUDE APENAS AQUI!
-const AUTOPLAY_DURATION = 12;
+// CONFIGURAÇÕES
+const AUTOPLAY_DURATION = 5; // Duração em segundos
+const TRANSITION_DURATION = 500; // Duração da transição em ms
 
 // IDs dos jogos do Roblox
 const universeIds = [
@@ -169,14 +148,16 @@ const visit = document.getElementById('projVisit');
 const prev = document.getElementById('projPrev');
 const next = document.getElementById('projNext');
 const dots = document.getElementById('projDots');
-
-// Elementos do autoplay progress
+const carouselMain = document.getElementById('carouselMain');
 const autoplayProgressContainer = document.getElementById('autoplayProgressContainer');
 const autoplayProgressBar = document.getElementById('autoplayProgressBar');
 
 let projects = [];
-let index = 0;
-let autoplayInterval = null;
+let currentIndex = 0;
+let isTransitioning = false;
+let autoplayEnabled = true;
+let progressInterval = null;
+let autoplayTimeout = null;
 
 // Fetch com retry
 async function fetchGame(id, retries = 3, delay = 300) {
@@ -213,9 +194,10 @@ function createDots() {
     const dot = document.createElement('div');
     dot.className = 'dot';
     dot.onclick = () => {
-      index = i;
-      render();
-      resetAutoplay();
+      if (!isTransitioning) {
+        goToSlide(i);
+        disableAutoplay();
+      }
     };
     dots.appendChild(dot);
   });
@@ -224,32 +206,38 @@ function createDots() {
 // Atualizar estado dos dots
 function updateDots() {
   [...dots.children].forEach((dot, i) => {
-    dot.classList.toggle('active', i === index);
+    dot.classList.toggle('active', i === currentIndex);
   });
 }
 
-// Animação de transição
-function animate() {
-  img.classList.remove('show');
-  title.classList.remove('show');
-  meta.classList.remove('show');
-  desc.classList.remove('show');
+// Animação de transição suave
+async function animateTransition() {
+  isTransitioning = true;
   
-  img.classList.add('loading-skeleton');
+  // Fade out
+  title.classList.add('fade-out');
+  meta.classList.add('fade-out');
+  desc.classList.add('fade-out');
+  img.style.opacity = '0';
+  img.style.transform = 'scale(0.95)';
   
-  setTimeout(() => {
-    img.classList.remove('loading-skeleton');
-    img.classList.add('show');
-    setTimeout(() => title.classList.add('show'), 100);
-    setTimeout(() => meta.classList.add('show'), 200);
-    setTimeout(() => desc.classList.add('show'), 300);
-  }, 150);
+  await new Promise(resolve => setTimeout(resolve, TRANSITION_DURATION));
+  
+  // Fade in
+  title.classList.remove('fade-out');
+  meta.classList.remove('fade-out');
+  desc.classList.remove('fade-out');
+  img.style.opacity = '1';
+  img.style.transform = 'scale(1)';
+  
+  isTransitioning = false;
 }
 
 // Renderizar projeto atual
-function render() {
-  const p = projects[index];
-  animate();
+async function render() {
+  const p = projects[currentIndex];
+  
+  await animateTransition();
   
   img.src = p.image;
   img.onclick = () => window.open(p.url, '_blank');
@@ -276,93 +264,146 @@ function render() {
   updateDots();
 }
 
-// Autoplay do carrossel com barra de progresso
+// Ir para um slide específico
+async function goToSlide(index) {
+  if (isTransitioning) return;
+  currentIndex = index;
+  await render();
+  if (autoplayEnabled) {
+    startAutoplay();
+  }
+}
+
+// Próximo slide
+async function nextSlide() {
+  if (isTransitioning) return;
+  currentIndex = (currentIndex + 1) % projects.length;
+  await render();
+}
+
+// Slide anterior
+async function prevSlide() {
+  if (isTransitioning) return;
+  currentIndex = (currentIndex - 1 + projects.length) % projects.length;
+  await render();
+}
+
+// Sistema de progresso do autoplay
+function updateProgress() {
+  let progress = 0;
+  const incrementPerFrame = 100 / ((AUTOPLAY_DURATION * 1000) / 50);
+  
+  // Limpar intervalo anterior
+  if (progressInterval) {
+    clearInterval(progressInterval);
+  }
+  
+  // Resetar barra
+  autoplayProgressBar.style.width = '0%';
+  
+  progressInterval = setInterval(() => {
+    progress += incrementPerFrame;
+    if (progress >= 100) {
+      progress = 100;
+      clearInterval(progressInterval);
+    }
+    autoplayProgressBar.style.width = progress + '%';
+  }, 50);
+}
+
+// Iniciar autoplay
 function startAutoplay() {
-  // Mostrar a barra com animação
+  // Limpar timeouts e intervals anteriores
+  if (autoplayTimeout) {
+    clearTimeout(autoplayTimeout);
+  }
+  if (progressInterval) {
+    clearInterval(progressInterval);
+  }
+  
+  if (!autoplayEnabled) return;
+  
+  // Mostrar barra de progresso
   if (autoplayProgressContainer) {
     autoplayProgressContainer.classList.add('active');
   }
   
-  // Reset e iniciar animação da barra
-  if (autoplayProgressBar) {
-    autoplayProgressBar.style.animation = 'none';
-    autoplayProgressBar.offsetHeight; // Trigger reflow
-    autoplayProgressBar.classList.add('animating');
-    autoplayProgressBar.style.animation = `fillProgress ${AUTOPLAY_DURATION}s linear forwards`;
-  }
+  // Iniciar progresso visual
+  updateProgress();
   
-  autoplayInterval = setInterval(() => {
-    index = (index + 1) % projects.length;
-    render();
-    
-    // Reiniciar a animação da barra após trocar de projeto
-    if (autoplayProgressBar) {
-      autoplayProgressBar.style.animation = 'none';
-      autoplayProgressBar.offsetHeight; // Trigger reflow
-      autoplayProgressBar.style.animation = `fillProgress ${AUTOPLAY_DURATION}s linear forwards`;
+  // Agendar próximo slide
+  autoplayTimeout = setTimeout(() => {
+    if (autoplayEnabled && !isTransitioning) {
+      nextSlide();
+      startAutoplay();
     }
   }, AUTOPLAY_DURATION * 1000);
 }
 
+// Parar autoplay
 function stopAutoplay() {
-  if (autoplayInterval) {
-    clearInterval(autoplayInterval);
-    autoplayInterval = null;
+  if (autoplayTimeout) {
+    clearTimeout(autoplayTimeout);
+    autoplayTimeout = null;
   }
-  
-  // Esconder a barra com animação
+  if (progressInterval) {
+    clearInterval(progressInterval);
+    progressInterval = null;
+  }
   if (autoplayProgressContainer) {
     autoplayProgressContainer.classList.remove('active');
   }
-  
-  // Parar a animação da barra
-  if (autoplayProgressBar) {
-    autoplayProgressBar.classList.remove('animating');
-    autoplayProgressBar.style.animation = 'none';
-    autoplayProgressBar.style.width = '0%';
-  }
+  autoplayProgressBar.style.width = '0%';
 }
 
-function resetAutoplay() {
+// Desabilitar autoplay permanentemente
+function disableAutoplay() {
+  autoplayEnabled = false;
   stopAutoplay();
-  startAutoplay();
 }
 
-// Pausar autoplay ao hover
-const carouselMain = document.getElementById('carouselMain');
+// Pausar autoplay ao hover (mas não desabilitar)
 if (carouselMain) {
   carouselMain.addEventListener('mouseenter', () => {
-    stopAutoplay();
+    if (autoplayEnabled) {
+      stopAutoplay();
+    }
   });
   
   carouselMain.addEventListener('mouseleave', () => {
-    startAutoplay();
+    if (autoplayEnabled && !isTransitioning) {
+      startAutoplay();
+    }
   });
 }
 
 // Navegação
 if (prev) {
-  prev.onclick = () => {
-    index = (index - 1 + projects.length) % projects.length;
-    render();
-    resetAutoplay();
+  prev.onclick = async () => {
+    if (!isTransitioning) {
+      await prevSlide();
+      disableAutoplay();
+    }
   };
 }
 
 if (next) {
-  next.onclick = () => {
-    index = (index + 1) % projects.length;
-    render();
-    resetAutoplay();
+  next.onclick = async () => {
+    if (!isTransitioning) {
+      await nextSlide();
+      disableAutoplay();
+    }
   };
 }
 
 // Keyboard navigation
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowLeft') {
-    prev.click();
-  } else if (e.key === 'ArrowRight') {
-    next.click();
+document.addEventListener('keydown', async (e) => {
+  if (e.key === 'ArrowLeft' && !isTransitioning) {
+    await prevSlide();
+    disableAutoplay();
+  } else if (e.key === 'ArrowRight' && !isTransitioning) {
+    await nextSlide();
+    disableAutoplay();
   }
 });
 
@@ -419,7 +460,7 @@ async function fetchRobloxUser(id) {
   }));
   
   createDots();
-  render();
+  await render();
   startAutoplay();
 })();
 
