@@ -20,6 +20,56 @@ document.querySelectorAll('a, button').forEach(el => {
   });
 });
 
+// Mouse Light Effect - Luz suave que segue o mouse
+const mouseLight = document.getElementById('mouseLight');
+let mouseLightX = 0;
+let mouseLightY = 0;
+let currentX = 0;
+let currentY = 0;
+
+// Atualizar posição do mouse
+document.addEventListener('mousemove', (e) => {
+  mouseLightX = e.clientX;
+  mouseLightY = e.clientY;
+  
+  // Ativar a luz quando o mouse se move
+  if (mouseLight && !mouseLight.classList.contains('active')) {
+    mouseLight.classList.add('active');
+  }
+});
+
+// Animação suave usando requestAnimationFrame
+function animateMouseLight() {
+  // Interpolação suave (easing)
+  const speed = 0.15; // Quanto menor, mais suave (0.1 - 0.3)
+  
+  currentX += (mouseLightX - currentX) * speed;
+  currentY += (mouseLightY - currentY) * speed;
+  
+  if (mouseLight) {
+    mouseLight.style.left = currentX + 'px';
+    mouseLight.style.top = currentY + 'px';
+  }
+  
+  requestAnimationFrame(animateMouseLight);
+}
+
+// Iniciar animação
+animateMouseLight();
+
+// Desativar luz quando o mouse sair da janela
+document.addEventListener('mouseleave', () => {
+  if (mouseLight) {
+    mouseLight.classList.remove('active');
+  }
+});
+
+document.addEventListener('mouseenter', () => {
+  if (mouseLight) {
+    mouseLight.classList.add('active');
+  }
+});
+
 // Scroll Progress Bar
 window.addEventListener('scroll', () => {
   const scrollProgress = document.getElementById('scrollProgress');
@@ -95,6 +145,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // PROJECTS CAROUSEL
 // ======================
 
+// TEMPO DO AUTOPLAY (em segundos) - MUDE APENAS AQUI!
 const AUTOPLAY_DURATION = 12;
 
 // IDs dos jogos do Roblox
@@ -286,15 +337,6 @@ if (carouselMain) {
   
   carouselMain.addEventListener('mouseleave', () => {
     startAutoplay();
-  });
-  
-  // Mouse tracking for carousel
-  carouselMain.addEventListener('mousemove', (e) => {
-    const rect = carouselMain.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    carouselMain.style.setProperty('--mouse-x', x + '%');
-    carouselMain.style.setProperty('--mouse-y', y + '%');
   });
 }
 

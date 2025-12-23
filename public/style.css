@@ -137,6 +137,32 @@ body {
   }
 }
 
+/* Mouse Light Effect - Luz que segue o mouse */
+.mouse-light {
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(239, 68, 68, 0.15) 0%,
+    rgba(239, 68, 68, 0.08) 25%,
+    rgba(239, 68, 68, 0.03) 50%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 2;
+  filter: blur(40px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: screen;
+}
+
+.mouse-light.active {
+  opacity: 1;
+}
+
 /* Navigation */
 .nav-wrapper {
   position: fixed;
@@ -785,20 +811,6 @@ main {
   min-height: 400px;
   overflow: hidden;
   position: relative;
-}
-
-.carousel-main::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(239, 68, 68, 0.1), transparent 50%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-
-.carousel-main:hover::before {
-  opacity: 1;
 }
 
 .carousel-main:hover {
