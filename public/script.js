@@ -104,16 +104,23 @@ revealElements.forEach(el => revealObserver.observe(el));
 // Smooth scroll for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      target.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
+    const href = this.getAttribute('href');
+    
+    // CORREÇÃO: Verifica se o link ainda é uma âncora interna (começa com #)
+    // Se for um link externo (como https://roblox.com...), ele deixa o clique acontecer normalmente
+    if (href && href.startsWith('#') && href.length > 1) {
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
     }
   });
 });
+
 
 // ======================
 // PROJECTS CAROUSEL
