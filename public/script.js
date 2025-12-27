@@ -155,7 +155,7 @@ let isTransitioning = false;
 let autoplayEnabled = true;
 let progressInterval = null;
 let autoplayTimeout = null;
-let carouselHasBeenViewed = false; // Flag para controlar se já foi visto
+let carouselHasBeenViewed = false;
 
 // Fetch com retry
 async function fetchGame(id, retries = 3, delay = 300) {
@@ -238,7 +238,7 @@ async function render() {
   img.src = p.image;
   img.onclick = () => window.open(p.url, '_blank');
   
-  const maxTitleLength = 30;
+  const maxTitleLength = 35;
   let projectTitle = p.name;
   if (projectTitle.length > maxTitleLength) {
     projectTitle = projectTitle.slice(0, maxTitleLength) + '…';
@@ -249,9 +249,22 @@ async function render() {
   const playerCount = p.playing.toLocaleString();
   const visitCount = p.visits.toLocaleString();
   
+  // Estatísticas com ênfase maior no CCU
   meta.innerHTML = `
-    <span class="project-stat">👥 ${playerCount} players</span>
-    <span class="project-stat">👀 ${visitCount} visits</span>
+    <div class="stat-block ccu-stat">
+      <div class="stat-icon">👥</div>
+      <div class="stat-content">
+        <div class="stat-value">${playerCount}</div>
+        <div class="stat-label">Concurrent Players</div>
+      </div>
+    </div>
+    <div class="stat-block visits-stat">
+      <div class="stat-icon">👀</div>
+      <div class="stat-content">
+        <div class="stat-value">${visitCount}</div>
+        <div class="stat-label">Total Visits</div>
+      </div>
+    </div>
   `;
   
   desc.textContent = p.description || 'No description available';
@@ -404,27 +417,21 @@ function setupCarouselObserver() {
   const carouselObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting && !carouselHasBeenViewed) {
-        // Primeira vez que o carrossel aparece no viewport
         carouselHasBeenViewed = true;
-        
-        // Resetar para o primeiro slide
         currentIndex = 0;
         render().then(() => {
-          // Iniciar autoplay após renderizar
           if (autoplayEnabled) {
             startAutoplay();
           }
         });
       } else if (!entry.isIntersecting && autoplayEnabled) {
-        // Parar autoplay quando sair do viewport
         stopAutoplay();
       } else if (entry.isIntersecting && carouselHasBeenViewed && autoplayEnabled) {
-        // Retomar autoplay se voltar ao viewport (mas não resetar o índice)
         startAutoplay();
       }
     });
   }, {
-    threshold: 0.3, // 30% do carrossel visível
+    threshold: 0.3,
     rootMargin: '0px'
   });
   
@@ -471,25 +478,24 @@ async function fetchRobloxUser(id) {
     return;
   }
   
-  projects = data.map(g => ({
-    universeId: g.universeId,
-    name: g.name,
-    description: g.description,
-    visits: g.visits,
-    playing: g.playing,
-    image: g.icon,
-    url: g.rootPlaceId
-      ? `https://www.roblox.com/games/${g.rootPlaceId}`
-      : `https://www.roblox.com/games/${g.universeId}`
-  }));
+  // Mapear e ORDENAR por CCU (concurrent players) - do maior para o menor
+  projects = data
+    .map(g => ({
+      universeId: g.universeId,
+      name: g.name,
+      description: g.description,
+      visits: g.visits,
+      playing: g.playing,
+      image: g.icon,
+      url: g.rootPlaceId
+        ? `https://www.roblox.com/games/${g.rootPlaceId}`
+        : `https://www.roblox.com/games/${g.universeId}`
+    }))
+    .sort((a, b) => b.playing - a.playing); // Ordenar por CCU decrescente
   
   createDots();
   await render();
   
-  // NÃO iniciar autoplay aqui - aguardar o IntersectionObserver
-  // startAutoplay(); // REMOVIDO
-  
-  // Configurar observer para iniciar autoplay quando visível
   setupCarouselObserver();
 })();
 
