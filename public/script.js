@@ -10,7 +10,6 @@ document.addEventListener('mousemove', (e) => {
   mouseLightX = e.clientX;
   mouseLightY = e.clientY;
   
-  // Ativar a luz quando o mouse se move
   if (mouseLight && !mouseLight.classList.contains('active')) {
     mouseLight.classList.add('active');
   }
@@ -18,7 +17,6 @@ document.addEventListener('mousemove', (e) => {
 
 // Animação suave usando requestAnimationFrame
 function animateMouseLight() {
-  // Interpolação suave (easing)
   const speed = 0.15;
   
   currentX += (mouseLightX - currentX) * speed;
@@ -32,10 +30,8 @@ function animateMouseLight() {
   requestAnimationFrame(animateMouseLight);
 }
 
-// Iniciar animação
 animateMouseLight();
 
-// Desativar luz quando o mouse sair da janela
 document.addEventListener('mouseleave', () => {
   if (mouseLight) {
     mouseLight.classList.remove('active');
@@ -124,8 +120,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // ======================
 
 // CONFIGURAÇÕES
-const AUTOPLAY_DURATION = 5; // Duração em segundos
-const TRANSITION_DURATION = 500; // Duração da transição em ms
+const AUTOPLAY_DURATION = 5;
+const TRANSITION_DURATION = 500;
 
 // IDs dos jogos do Roblox
 const universeIds = [
@@ -159,6 +155,7 @@ let isTransitioning = false;
 let autoplayEnabled = true;
 let progressInterval = null;
 let autoplayTimeout = null;
+let carouselHasBeenViewed = false; // Flag para controlar se já foi visto
 
 // Fetch com retry
 async function fetchGame(id, retries = 3, delay = 300) {
@@ -215,7 +212,6 @@ function updateDots() {
 async function animateTransition() {
   isTransitioning = true;
   
-  // Fade out
   title.classList.add('fade-out');
   meta.classList.add('fade-out');
   desc.classList.add('fade-out');
@@ -224,7 +220,6 @@ async function animateTransition() {
   
   await new Promise(resolve => setTimeout(resolve, TRANSITION_DURATION));
   
-  // Fade in
   title.classList.remove('fade-out');
   meta.classList.remove('fade-out');
   desc.classList.remove('fade-out');
@@ -294,12 +289,10 @@ function updateProgress() {
   let progress = 0;
   const incrementPerFrame = 100 / ((AUTOPLAY_DURATION * 1000) / 50);
   
-  // Limpar intervalo anterior
   if (progressInterval) {
     clearInterval(progressInterval);
   }
   
-  // Resetar barra
   autoplayProgressBar.style.width = '0%';
   
   progressInterval = setInterval(() => {
@@ -314,7 +307,6 @@ function updateProgress() {
 
 // Iniciar autoplay
 function startAutoplay() {
-  // Limpar timeouts e intervals anteriores
   if (autoplayTimeout) {
     clearTimeout(autoplayTimeout);
   }
@@ -324,15 +316,12 @@ function startAutoplay() {
   
   if (!autoplayEnabled) return;
   
-  // Mostrar barra de progresso
   if (autoplayProgressContainer) {
     autoplayProgressContainer.classList.add('active');
   }
   
-  // Iniciar progresso visual
   updateProgress();
   
-  // Agendar próximo slide
   autoplayTimeout = setTimeout(() => {
     if (autoplayEnabled && !isTransitioning) {
       nextSlide();
@@ -363,7 +352,7 @@ function disableAutoplay() {
   stopAutoplay();
 }
 
-// Pausar autoplay ao hover (mas não desabilitar)
+// Pausar autoplay ao hover
 if (carouselMain) {
   carouselMain.addEventListener('mouseenter', () => {
     if (autoplayEnabled) {
@@ -407,6 +396,40 @@ document.addEventListener('keydown', async (e) => {
     disableAutoplay();
   }
 });
+
+// IntersectionObserver para detectar quando o carrossel entra no viewport
+function setupCarouselObserver() {
+  if (!carouselMain || !('IntersectionObserver' in window)) return;
+  
+  const carouselObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !carouselHasBeenViewed) {
+        // Primeira vez que o carrossel aparece no viewport
+        carouselHasBeenViewed = true;
+        
+        // Resetar para o primeiro slide
+        currentIndex = 0;
+        render().then(() => {
+          // Iniciar autoplay após renderizar
+          if (autoplayEnabled) {
+            startAutoplay();
+          }
+        });
+      } else if (!entry.isIntersecting && autoplayEnabled) {
+        // Parar autoplay quando sair do viewport
+        stopAutoplay();
+      } else if (entry.isIntersecting && carouselHasBeenViewed && autoplayEnabled) {
+        // Retomar autoplay se voltar ao viewport (mas não resetar o índice)
+        startAutoplay();
+      }
+    });
+  }, {
+    threshold: 0.3, // 30% do carrossel visível
+    rootMargin: '0px'
+  });
+  
+  carouselObserver.observe(carouselMain);
+}
 
 // Fetch dados do usuário Roblox
 async function fetchRobloxUser(id) {
@@ -462,7 +485,12 @@ async function fetchRobloxUser(id) {
   
   createDots();
   await render();
-  startAutoplay();
+  
+  // NÃO iniciar autoplay aqui - aguardar o IntersectionObserver
+  // startAutoplay(); // REMOVIDO
+  
+  // Configurar observer para iniciar autoplay quando visível
+  setupCarouselObserver();
 })();
 
 // Animação de contagem nos números
