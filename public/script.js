@@ -244,12 +244,12 @@ async function render() {
     projectTitle = projectTitle.slice(0, maxTitleLength) + '…';
   }
   
-  title.textContent = projectTitle;
+  title.textContent = projectTitle; // Agora o título não tem gradiente no JS, é controlado pelo CSS
   
   const playerCount = p.playing.toLocaleString();
   const visitCount = p.visits.toLocaleString();
   
-  // Estatísticas com ênfase maior no CCU
+  // Estrutura de estatísticas atualizada para combinar com o novo CSS
   meta.innerHTML = `
     <div class="stat-block ccu-stat">
       <div class="stat-icon">👥</div>
@@ -272,6 +272,7 @@ async function render() {
   
   updateDots();
 }
+
 
 // Ir para um slide específico
 async function goToSlide(index) {
