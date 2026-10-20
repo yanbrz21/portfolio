@@ -13,6 +13,10 @@ export default async function handler(req, res) {
     res.status(400).json({ error: "Missing id" });
     return;
   }
+  if (!/^\d+$/.test(String(userId))) {
+    res.status(400).json({ error: "Invalid id" });
+    return;
+  }
 
   const userUrl = `https://users.roblox.com/v1/users/${userId}`;
   const followersUrl = `https://friends.roblox.com/v1/users/${userId}/followers/count`;
@@ -34,6 +38,7 @@ export default async function handler(req, res) {
 
     const avatarUrl = avatarJson.data?.[0]?.imageUrl || null;
 
+    res.setHeader("Cache-Control", "s-maxage=3600, stale-while-revalidate=86400");
     res.status(200).json({
       id: userJson.id,
       username: userJson.name,

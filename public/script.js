@@ -1,136 +1,10 @@
-// Mouse Light Effect - Luz suave que segue o mouse
-const mouseLight = document.getElementById('mouseLight');
-let mouseLightX = 0;
-let mouseLightY = 0;
-let currentX = 0;
-let currentY = 0;
-
-// Atualizar posição do mouse
-document.addEventListener('mousemove', (e) => {
-  mouseLightX = e.clientX;
-  mouseLightY = e.clientY;
-  
-  if (mouseLight && !mouseLight.classList.contains('active')) {
-    mouseLight.classList.add('active');
-  }
-});
-
-// Animação suave usando requestAnimationFrame
-function animateMouseLight() {
-  const speed = 0.15;
-  
-  currentX += (mouseLightX - currentX) * speed;
-  currentY += (mouseLightY - currentY) * speed;
-  
-  if (mouseLight) {
-    mouseLight.style.left = currentX + 'px';
-    mouseLight.style.top = currentY + 'px';
-  }
-  
-  requestAnimationFrame(animateMouseLight);
-}
-
-animateMouseLight();
-
-document.addEventListener('mouseleave', () => {
-  if (mouseLight) {
-    mouseLight.classList.remove('active');
-  }
-});
-
-document.addEventListener('mouseenter', () => {
-  if (mouseLight) {
-    mouseLight.classList.add('active');
-  }
-});
-
-// Scroll Progress Bar
-window.addEventListener('scroll', () => {
-  const scrollProgress = document.getElementById('scrollProgress');
-  const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-  const scrolled = (window.scrollY / scrollHeight) * 100;
-  scrollProgress.style.width = scrolled + '%';
-});
-
-// Navbar scroll effect
-window.addEventListener('scroll', () => {
-  const navbar = document.getElementById('navbar');
-  if (window.scrollY > 50) {
-    navbar.classList.add('scrolled');
-  } else {
-    navbar.classList.remove('scrolled');
-  }
-});
-
-// Active nav link
-const navLinks = document.querySelectorAll('.nav-link');
-const sections = document.querySelectorAll('section[id]');
-
-window.addEventListener('scroll', () => {
-  let current = '';
-  sections.forEach(section => {
-    const sectionTop = section.offsetTop;
-    const sectionHeight = section.clientHeight;
-    if (window.scrollY >= sectionTop - 200) {
-      current = section.getAttribute('id');
-    }
-  });
-  
-  navLinks.forEach(link => {
-    link.classList.remove('active');
-    if (link.getAttribute('href').slice(1) === current) {
-      link.classList.add('active');
-    }
-  });
-});
-
-// Scroll Reveal Animation
-const revealElements = document.querySelectorAll('.reveal');
-
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('active');
-      revealObserver.unobserve(entry.target);
-    }
-  });
-}, {
-  threshold: 0.1,
-  rootMargin: '0px 0px -50px 0px'
-});
-
-revealElements.forEach(el => revealObserver.observe(el));
-
-// Smooth scroll for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    const href = this.getAttribute('href');
-    
-    // CORREÇÃO: Verifica se o link ainda é uma âncora interna (começa com #)
-    // Se for um link externo (como https://roblox.com...), ele deixa o clique acontecer normalmente
-    if (href && href.startsWith('#') && href.length > 1) {
-      e.preventDefault();
-      const target = document.querySelector(href);
-      if (target) {
-        target.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
-    }
-  });
-});
-
-
 // ======================
-// PROJECTS CAROUSEL
-// ======================
-
 // CONFIGURAÇÕES
-const AUTOPLAY_DURATION = 5;
-const TRANSITION_DURATION = 500;
+// ======================
 
-// IDs dos jogos do Roblox
+const ROBLOX_USER_ID = '72538349';
+
+// IDs (universe) dos jogos do Roblox exibidos em "Work"
 const universeIds = [
   "9277195104",
   "8606799872",
@@ -143,404 +17,264 @@ const universeIds = [
   "7559569212",
 ];
 
-// Elementos do DOM
-const img = document.getElementById('projImg');
-const title = document.getElementById('projTitle');
-const meta = document.getElementById('projMeta');
-const desc = document.getElementById('projDesc');
-const visit = document.getElementById('projVisit');
-const prev = document.getElementById('projPrev');
-const next = document.getElementById('projNext');
-const dots = document.getElementById('projDots');
-const carouselMain = document.getElementById('carouselMain');
-const autoplayProgressContainer = document.getElementById('autoplayProgressContainer');
-const autoplayProgressBar = document.getElementById('autoplayProgressBar');
+// ======================
+// HEADER E NAVEGAÇÃO
+// ======================
 
-let projects = [];
-let currentIndex = 0;
-let isTransitioning = false;
-let autoplayEnabled = true;
-let progressInterval = null;
-let autoplayTimeout = null;
-let carouselHasBeenViewed = false;
+const siteHeader = document.getElementById('siteHeader');
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.querySelectorAll('.nav-link');
 
-// Fetch com retry
-async function fetchGame(id, retries = 3, delay = 300) {
+// Fundo do header aparece depois de rolar um pouco
+function updateHeader() {
+  siteHeader.classList.toggle('scrolled', window.scrollY > 8);
+}
+
+window.addEventListener('scroll', updateHeader, { passive: true });
+updateHeader();
+
+// Menu mobile
+function setNavOpen(open) {
+  siteHeader.classList.toggle('nav-open', open);
+  navToggle.setAttribute('aria-expanded', String(open));
+}
+
+navToggle.addEventListener('click', () => {
+  setNavOpen(!siteHeader.classList.contains('nav-open'));
+});
+
+navLinks.forEach(link => link.addEventListener('click', () => setNavOpen(false)));
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') setNavOpen(false);
+});
+
+// Link ativo conforme a seção visível
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    navLinks.forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`);
+    });
+  });
+}, {
+  rootMargin: '-40% 0px -55% 0px'
+});
+
+document.querySelectorAll('main section[id]').forEach(section => sectionObserver.observe(section));
+
+// ======================
+// SCROLL REVEAL
+// ======================
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, {
+  threshold: 0.1,
+  rootMargin: '0px 0px -40px 0px'
+});
+
+document.querySelectorAll('[data-reveal]').forEach(el => revealObserver.observe(el));
+
+// ======================
+// WORK (JOGOS DO ROBLOX)
+// ======================
+
+const workGrid = document.getElementById('workGrid');
+
+const compactFormat = new Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 });
+const fullFormat = new Intl.NumberFormat('en');
+
+// Remove tags tipo "[UPD]" e emojis do nome do jogo
+function cleanName(name) {
+  const cleaned = String(name || '')
+    .replace(/\[[^\]]*\]/g, ' ')
+    .replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}]/gu, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  return cleaned || name;
+}
+
+// Helper para criar elementos sem innerHTML (os dados vêm de terceiros)
+function el(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text != null) node.textContent = text;
+  return node;
+}
+
+function arrowIcon() {
+  const ns = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('class', 'arrow');
+  svg.setAttribute('viewBox', '0 0 16 16');
+  svg.setAttribute('fill', 'none');
+  svg.setAttribute('stroke', 'currentColor');
+  svg.setAttribute('stroke-width', '1.5');
+  svg.setAttribute('stroke-linecap', 'round');
+  svg.setAttribute('stroke-linejoin', 'round');
+  svg.setAttribute('aria-hidden', 'true');
+  const path = document.createElementNS(ns, 'path');
+  path.setAttribute('d', 'M4.5 11.5l7-7M5.5 4.5h6v6');
+  svg.appendChild(path);
+  return svg;
+}
+
+// Fetch de todos os jogos em uma única chamada, com retry
+async function fetchGames(retries = 2, delay = 400) {
   try {
-    const res = await fetch(`/api/games?id=${id}`);
+    const res = await fetch(`/api/games?id=${universeIds.join(',')}`);
     const json = await res.json();
-    if (!json?.data?.[0]) throw new Error('No data');
-    return json.data[0];
+    if (!Array.isArray(json?.data) || json.data.length === 0) throw new Error('No data');
+    return json.data;
   } catch (err) {
     if (retries > 0) {
       await new Promise(r => setTimeout(r, delay));
-      return fetchGame(id, retries - 1, delay);
+      return fetchGames(retries - 1, delay * 2);
     }
-    return null;
+    return [];
   }
 }
 
-// Fetch todos os projetos em lotes
-const batchSize = 3;
-async function fetchProjects() {
-  const results = [];
-  for (let i = 0; i < universeIds.length; i += batchSize) {
-    const batch = universeIds.slice(i, i + batchSize);
-    const games = await Promise.all(batch.map(id => fetchGame(id)));
-    results.push(...games.filter(g => g));
+function stat(label, value) {
+  const wrap = el('div');
+  wrap.append(el('dt', null, label), el('dd', null, value));
+  return wrap;
+}
+
+// Criar o card de um jogo
+function createCard(game, index) {
+  const card = el('a', 'work-card');
+  card.href = game.url;
+  card.target = '_blank';
+  card.rel = 'noopener noreferrer';
+  card.style.setProperty('--i', index);
+
+  const thumb = el('div', 'work-thumb');
+  if (game.image) {
+    const img = el('img');
+    img.src = game.image;
+    img.alt = '';
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.width = 768;
+    img.height = 432;
+    thumb.appendChild(img);
+  } else {
+    thumb.appendChild(el('span', 'work-initial', game.name.charAt(0)));
   }
-  return results;
-}
 
-// Criar dots de navegação
-function createDots() {
-  dots.innerHTML = '';
-  projects.forEach((_, i) => {
-    const dot = document.createElement('div');
-    dot.className = 'dot';
-    dot.onclick = () => {
-      if (!isTransitioning) {
-        goToSlide(i);
-        disableAutoplay();
-      }
-    };
-    dots.appendChild(dot);
-  });
-}
-
-// Atualizar estado dos dots
-function updateDots() {
-  [...dots.children].forEach((dot, i) => {
-    dot.classList.toggle('active', i === currentIndex);
-  });
-}
-
-// Animação de transição suave
-async function animateTransition() {
-  isTransitioning = true;
-  
-  title.classList.add('fade-out');
-  meta.classList.add('fade-out');
-  desc.classList.add('fade-out');
-  img.style.opacity = '0';
-  img.style.transform = 'scale(0.95)';
-  
-  await new Promise(resolve => setTimeout(resolve, TRANSITION_DURATION));
-  
-  title.classList.remove('fade-out');
-  meta.classList.remove('fade-out');
-  desc.classList.remove('fade-out');
-  img.style.opacity = '1';
-  img.style.transform = 'scale(1)';
-  
-  isTransitioning = false;
-}
-
-// Renderizar projeto atual
-async function render() {
-  const p = projects[currentIndex];
-  
-  await animateTransition();
-  
-  img.src = p.image;
-  img.onclick = () => window.open(p.url, '_blank');
-  
-  const maxTitleLength = 35;
-  let projectTitle = p.name;
-  if (projectTitle.length > maxTitleLength) {
-    projectTitle = projectTitle.slice(0, maxTitleLength) + '…';
+  if (game.playing > 0) {
+    const live = el('span', 'work-live');
+    live.append(el('span', 'dot'), `${fullFormat.format(game.playing)} playing`);
+    thumb.appendChild(live);
   }
-  
-  title.textContent = projectTitle; // Agora o título não tem gradiente no JS, é controlado pelo CSS
-  
-  const playerCount = p.playing.toLocaleString();
-  const visitCount = p.visits.toLocaleString();
-  
-  // Estrutura de estatísticas atualizada para combinar com o novo CSS
-  meta.innerHTML = `
-    <div class="stat-block ccu-stat">
-      <div class="stat-icon">👥</div>
-      <div class="stat-content">
-        <div class="stat-value">${playerCount}</div>
-        <div class="stat-label">Concurrent Players</div>
-      </div>
-    </div>
-    <div class="stat-block visits-stat">
-      <div class="stat-icon">👀</div>
-      <div class="stat-content">
-        <div class="stat-value">${visitCount}</div>
-        <div class="stat-label">Total Visits</div>
-      </div>
-    </div>
-  `;
-  
-  desc.textContent = p.description || 'No description available';
-  visit.href = p.url;
-  
-  updateDots();
-}
 
+  const body = el('div', 'work-body');
+  const head = el('div', 'work-head');
+  head.append(el('h3', 'work-name', game.name), arrowIcon());
+  body.appendChild(head);
 
-// Ir para um slide específico
-async function goToSlide(index) {
-  if (isTransitioning) return;
-  currentIndex = index;
-  await render();
-  if (autoplayEnabled) {
-    startAutoplay();
+  if (game.creator) {
+    body.appendChild(el('p', 'work-studio', game.creator));
   }
+
+  const stats = el('dl', 'work-stats');
+  stats.append(
+    stat('Visits', compactFormat.format(game.visits)),
+    stat('Favorites', compactFormat.format(game.favorites))
+  );
+  body.appendChild(stats);
+
+  card.append(thumb, body);
+  return card;
 }
 
-// Próximo slide
-async function nextSlide() {
-  if (isTransitioning) return;
-  currentIndex = (currentIndex + 1) % projects.length;
-  await render();
+// Métricas somadas no hero
+function renderTotals(games) {
+  const sum = (key) => games.reduce((total, g) => total + g[key], 0);
+
+  document.getElementById('statVisits').textContent = compactFormat.format(sum('visits'));
+  document.getElementById('statFavorites').textContent = compactFormat.format(sum('favorites'));
+  document.getElementById('statPlaying').textContent = fullFormat.format(sum('playing'));
+  document.getElementById('statGames').textContent = games.length;
 }
 
-// Slide anterior
-async function prevSlide() {
-  if (isTransitioning) return;
-  currentIndex = (currentIndex - 1 + projects.length) % projects.length;
-  await render();
+function renderWorkError() {
+  const empty = el('p', 'work-empty', "Couldn't load live game data right now. ");
+  const link = el('a', null, 'See my games on Roblox');
+  link.href = `https://www.roblox.com/users/${ROBLOX_USER_ID}/profile`;
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+  empty.append(link, '.');
+  workGrid.replaceChildren(empty);
 }
 
-// Sistema de progresso do autoplay
-function updateProgress() {
-  let progress = 0;
-  const incrementPerFrame = 100 / ((AUTOPLAY_DURATION * 1000) / 50);
-  
-  if (progressInterval) {
-    clearInterval(progressInterval);
+async function initWork() {
+  const data = await fetchGames();
+
+  if (data.length === 0) {
+    renderWorkError();
+    return;
   }
-  
-  autoplayProgressBar.style.width = '0%';
-  
-  progressInterval = setInterval(() => {
-    progress += incrementPerFrame;
-    if (progress >= 100) {
-      progress = 100;
-      clearInterval(progressInterval);
-    }
-    autoplayProgressBar.style.width = progress + '%';
-  }, 50);
+
+  // Mapear e ORDENAR por visitas - do maior para o menor
+  const games = data
+    .map(g => ({
+      name: cleanName(g.name),
+      creator: g.creator,
+      visits: g.visits || 0,
+      favorites: g.favorites || 0,
+      playing: g.playing || 0,
+      image: g.thumbnail || g.icon,
+      url: `https://www.roblox.com/games/${g.rootPlaceId || g.universeId}`
+    }))
+    .sort((a, b) => b.visits - a.visits);
+
+  renderTotals(games);
+  workGrid.replaceChildren(...games.map(createCard));
 }
 
-// Iniciar autoplay
-function startAutoplay() {
-  if (autoplayTimeout) {
-    clearTimeout(autoplayTimeout);
-  }
-  if (progressInterval) {
-    clearInterval(progressInterval);
-  }
-  
-  if (!autoplayEnabled) return;
-  
-  if (autoplayProgressContainer) {
-    autoplayProgressContainer.classList.add('active');
-  }
-  
-  updateProgress();
-  
-  autoplayTimeout = setTimeout(() => {
-    if (autoplayEnabled && !isTransitioning) {
-      nextSlide();
-      startAutoplay();
-    }
-  }, AUTOPLAY_DURATION * 1000);
-}
+// ======================
+// PERFIL DO ROBLOX
+// ======================
 
-// Parar autoplay
-function stopAutoplay() {
-  if (autoplayTimeout) {
-    clearTimeout(autoplayTimeout);
-    autoplayTimeout = null;
-  }
-  if (progressInterval) {
-    clearInterval(progressInterval);
-    progressInterval = null;
-  }
-  if (autoplayProgressContainer) {
-    autoplayProgressContainer.classList.remove('active');
-  }
-  autoplayProgressBar.style.width = '0%';
-}
-
-// Desabilitar autoplay permanentemente
-function disableAutoplay() {
-  autoplayEnabled = false;
-  stopAutoplay();
-}
-
-// Pausar autoplay ao hover
-if (carouselMain) {
-  carouselMain.addEventListener('mouseenter', () => {
-    if (autoplayEnabled) {
-      stopAutoplay();
-    }
-  });
-  
-  carouselMain.addEventListener('mouseleave', () => {
-    if (autoplayEnabled && !isTransitioning) {
-      startAutoplay();
-    }
-  });
-}
-
-// Navegação
-if (prev) {
-  prev.onclick = async () => {
-    if (!isTransitioning) {
-      await prevSlide();
-      disableAutoplay();
-    }
-  };
-}
-
-if (next) {
-  next.onclick = async () => {
-    if (!isTransitioning) {
-      await nextSlide();
-      disableAutoplay();
-    }
-  };
-}
-
-// Keyboard navigation
-document.addEventListener('keydown', async (e) => {
-  if (e.key === 'ArrowLeft' && !isTransitioning) {
-    await prevSlide();
-    disableAutoplay();
-  } else if (e.key === 'ArrowRight' && !isTransitioning) {
-    await nextSlide();
-    disableAutoplay();
-  }
-});
-
-// IntersectionObserver para detectar quando o carrossel entra no viewport
-function setupCarouselObserver() {
-  if (!carouselMain || !('IntersectionObserver' in window)) return;
-  
-  const carouselObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && !carouselHasBeenViewed) {
-        carouselHasBeenViewed = true;
-        currentIndex = 0;
-        render().then(() => {
-          if (autoplayEnabled) {
-            startAutoplay();
-          }
-        });
-      } else if (!entry.isIntersecting && autoplayEnabled) {
-        stopAutoplay();
-      } else if (entry.isIntersecting && carouselHasBeenViewed && autoplayEnabled) {
-        startAutoplay();
-      }
-    });
-  }, {
-    threshold: 0.3,
-    rootMargin: '0px'
-  });
-  
-  carouselObserver.observe(carouselMain);
-}
-
-// Fetch dados do usuário Roblox
 async function fetchRobloxUser(id) {
   try {
     const res = await fetch(`/api/user?id=${id}`);
     const user = await res.json();
-    
+
     if (!user || !user.id) return;
-    
-    const avatarImg = document.getElementById('robloxAvatar');
-    avatarImg.style.opacity = '0';
-    avatarImg.src = user.avatarUrl;
-    avatarImg.onload = () => {
-      avatarImg.style.transition = 'opacity 0.5s ease';
-      avatarImg.style.opacity = '1';
-    };
-    
-    document.getElementById('robloxUsername').textContent = user.username;
-    
+
+    if (user.avatarUrl) {
+      const avatarImg = document.getElementById('robloxAvatar');
+      avatarImg.onload = () => { avatarImg.hidden = false; };
+      avatarImg.src = user.avatarUrl;
+    }
+
+    if (user.username) {
+      document.getElementById('robloxUsername').textContent = user.username;
+    }
+
     const profileUrl = `https://www.roblox.com/users/${user.id}/profile`;
-    document.querySelectorAll('#robloxProfileLink, #robloxContactLink, #robloxSocialLink').forEach(link => {
+    document.querySelectorAll('[data-roblox-link]').forEach(link => {
       link.href = profileUrl;
     });
-    
   } catch (err) {
     console.error('Failed to fetch Roblox user:', err);
   }
 }
 
-// Inicializar
-(async () => {
-  fetchRobloxUser('72538349');
-  
-  const data = await fetchProjects();
-  
-  if (!Array.isArray(data) || data.length === 0) {
-    title.textContent = 'No projects found';
-    desc.textContent = 'Unable to load projects at this time.';
-    return;
-  }
-  
-  // Mapear e ORDENAR por CCU (concurrent players) - do maior para o menor
-  projects = data
-    .map(g => ({
-      universeId: g.universeId,
-      name: g.name,
-      description: g.description,
-      visits: g.visits,
-      playing: g.playing,
-      image: g.icon,
-      url: g.rootPlaceId
-        ? `https://www.roblox.com/games/${g.rootPlaceId}`
-        : `https://www.roblox.com/games/${g.universeId}`
-    }))
-    .sort((a, b) => b.playing - a.playing); // Ordenar por CCU decrescente
-  
-  createDots();
-  await render();
-  
-  setupCarouselObserver();
-})();
+// ======================
+// INICIALIZAR
+// ======================
 
-// Animação de contagem nos números
-function animateNumber(element, target, duration = 1000) {
-  const start = 0;
-  const increment = target / (duration / 16);
-  let current = start;
-  
-  const timer = setInterval(() => {
-    current += increment;
-    if (current >= target) {
-      element.textContent = target;
-      clearInterval(timer);
-    } else {
-      element.textContent = Math.floor(current);
-    }
-  }, 16);
-}
+document.getElementById('year').textContent = new Date().getFullYear();
 
-// Iniciar animação quando os elementos aparecem
-const statNumbers = document.querySelectorAll('.stat-number');
-const statsObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const target = entry.target;
-      const value = target.textContent.replace('+', '').replace('%', '');
-      const suffix = target.textContent.includes('+') ? '+' : target.textContent.includes('%') ? '%' : '';
-      
-      animateNumber(target, parseInt(value), 1500);
-      setTimeout(() => {
-        target.textContent = value + suffix;
-      }, 1500);
-      
-      statsObserver.unobserve(target);
-    }
-  });
-}, { threshold: 0.5 });
-
-statNumbers.forEach(el => statsObserver.observe(el));
+fetchRobloxUser(ROBLOX_USER_ID);
+initWork();

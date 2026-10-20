@@ -1,363 +1,262 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Manto | LuaU Developer & Game Systems Architect</title>
-  <meta name="description" content="LuaU Developer specializing in Roblox game development, custom systems, and engaging gameplay experiences.">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Manto — LuaU Developer for Roblox Studios</title>
+  <meta name="description" content="Manto is a LuaU developer building gameplay systems, player data and client-server architecture for Roblox studios.">
+  <meta name="theme-color" content="#0a0a0b">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Manto — LuaU Developer for Roblox Studios">
+  <meta property="og:description" content="Gameplay systems, player data and client-server architecture for Roblox games.">
+  <link rel="icon" href="./img/mark.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="shortcut icon" href="./img/logo.png" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
 
-  <!-- Scroll Progress Bar -->
-  <div class="scroll-progress" id="scrollProgress"></div>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-  <!-- Background Effects -->
-  <div class="bg-gradient"></div>
-  <div class="bg-grid"></div>
-
-  <!-- Floating Particles -->
-  <div class="floating-particles">
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-  </div>
-
-  <!-- Mouse Light Effect -->
-  <div class="mouse-light" id="mouseLight"></div>
-
-  <!-- Navigation -->
-  <nav class="nav-wrapper" id="navbar">
-    <div class="nav-container">
-      <a href="#" class="nav-logo">
-        <img src="./img/logo.png" alt="Manto Logo">
-        <span class="nav-brand">Manto</span>
+  <!-- Header -->
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <a href="#top" class="brand" aria-label="Manto, back to top">
+        <svg class="brand-mark" viewBox="4 6 24 20" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M11.5 10.5L6 16l5.5 5.5M20.5 10.5L26 16l-5.5 5.5" stroke="currentColor"/>
+          <path d="M18.25 8l-4.5 16" stroke="var(--accent)"/>
+        </svg>
+        <span class="brand-name">Manto</span>
       </a>
-      <ul class="nav-links">
-        <li><a href="#home" class="nav-link">Home</a></li>
-        <li><a href="#about" class="nav-link">About</a></li>
-        <li><a href="#skills" class="nav-link">Skills</a></li>
-        <li><a href="#projects" class="nav-link">Projects</a></li>
-        <li><a href="#contact" class="nav-link">Contact</a></li>
-      </ul>
-      <div class="nav-cta">
-        <a href="#contact" class="btn btn-primary">Let's Talk</a>
+
+      <nav class="site-nav" id="siteNav" aria-label="Primary">
+        <a href="#work" class="nav-link">Work</a>
+        <a href="#expertise" class="nav-link">Expertise</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="#contact" class="btn btn-primary btn-sm">Get in touch</a>
+        <button class="nav-toggle" id="navToggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="siteNav">
+          <span></span><span></span>
+        </button>
       </div>
     </div>
-  </nav>
+  </header>
 
-  <!-- Main Content -->
-  <main>
-    <!-- Hero Section -->
-    <section id="home" class="hero">
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero" id="top">
       <div class="container">
-        <div class="hero-content">
-          <div class="hero-badge">
-            <span>🔴</span> <span>Available for Projects</span>
-          </div>
-          <h1 class="hero-title">
-            Hi, I'm <span class="gradient-text">Manto</span><br>
-            LuaU Developer & Game Systems Architect
-          </h1>
-          <p class="hero-description">
-            Specialized in creating engaging Roblox experiences with custom game mechanics, data systems, and scalable architectures. Turning ideas into interactive realities.
-          </p>
-          <div class="hero-stats">
-            <div class="stat-item reveal">
-              <div class="stat-number">2+</div>
-              <div class="stat-label">Years Experience</div>
+        <p class="status" data-reveal>
+          <span class="dot dot-live" aria-hidden="true"></span>
+          Available for new projects
+        </p>
+
+        <h1 class="hero-title" data-reveal>
+          Gameplay systems for Roblox games,
+          <span class="muted">built to hold up at scale.</span>
+        </h1>
+
+        <p class="hero-lead" data-reveal>
+          I'm Manto, a LuaU developer. I work with studios on custom mechanics, player data and client-server architecture for games played by millions.
+        </p>
+
+        <div class="hero-actions" data-reveal>
+          <a href="#work" class="btn btn-primary">View work</a>
+          <a href="#contact" class="btn btn-ghost">Contact me</a>
+        </div>
+
+        <!-- Métricas somadas dos jogos, preenchidas pelo script.js -->
+        <div class="metrics" data-reveal>
+          <dl class="metrics-grid">
+            <div class="metric">
+              <dt>Total visits</dt>
+              <dd id="statVisits">—</dd>
             </div>
-            <div class="stat-item reveal">
-              <div class="stat-number">15+</div>
-              <div class="stat-label">Projects Done</div>
+            <div class="metric">
+              <dt>Favorites</dt>
+              <dd id="statFavorites">—</dd>
             </div>
-            <div class="stat-item reveal">
-              <div class="stat-number">100%</div>
-              <div class="stat-label">Client Satisfaction</div>
+            <div class="metric">
+              <dt>Playing right now</dt>
+              <dd id="statPlaying">—</dd>
             </div>
-          </div>
-          <div class="hero-actions">
-            <a href="#projects" class="btn btn-primary">View My Work</a>
-            <a href="#contact" class="btn btn-secondary">Get In Touch</a>
-          </div>
+            <div class="metric">
+              <dt>Games worked on</dt>
+              <dd id="statGames">—</dd>
+            </div>
+          </dl>
+          <p class="metrics-note">Combined figures for the games listed below, live from the Roblox API.</p>
         </div>
       </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="section">
+    <!-- Work -->
+    <section class="section" id="work">
       <div class="container">
-        <div class="section-header reveal">
-          <span class="section-label">About Me</span>
-          <h2 class="section-title">Passionate About Game Development</h2>
-          <p class="section-description">
-            Building the future of Roblox gaming, one script at a time
-          </p>
-        </div>
+        <header class="section-head" data-reveal>
+          <p class="eyebrow"><span>01</span> Work</p>
+          <h2 class="section-title">Games I've worked on</h2>
+          <p class="section-lead">Live titles on Roblox, sorted by total visits. Every number here is pulled from the platform in real time.</p>
+        </header>
 
-        <div class="about-grid">
-          <div class="about-image-wrapper reveal">
-            <img id="robloxAvatar" src="https://via.placeholder.com/400" alt="Manto" class="about-image">
+        <div class="work-grid" id="workGrid" aria-live="polite">
+          <div class="work-card is-skeleton" aria-hidden="true"><div class="work-thumb"></div><div class="work-body"><span class="sk sk-title"></span><span class="sk sk-line"></span></div></div>
+          <div class="work-card is-skeleton" aria-hidden="true"><div class="work-thumb"></div><div class="work-body"><span class="sk sk-title"></span><span class="sk sk-line"></span></div></div>
+          <div class="work-card is-skeleton" aria-hidden="true"><div class="work-thumb"></div><div class="work-body"><span class="sk sk-title"></span><span class="sk sk-line"></span></div></div>
+          <div class="work-card is-skeleton" aria-hidden="true"><div class="work-thumb"></div><div class="work-body"><span class="sk sk-title"></span><span class="sk sk-line"></span></div></div>
+          <div class="work-card is-skeleton" aria-hidden="true"><div class="work-thumb"></div><div class="work-body"><span class="sk sk-title"></span><span class="sk sk-line"></span></div></div>
+          <div class="work-card is-skeleton" aria-hidden="true"><div class="work-thumb"></div><div class="work-body"><span class="sk sk-title"></span><span class="sk sk-line"></span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Expertise -->
+    <section class="section" id="expertise">
+      <div class="container">
+        <header class="section-head" data-reveal>
+          <p class="eyebrow"><span>02</span> Expertise</p>
+          <h2 class="section-title">What I bring to a project</h2>
+          <p class="section-lead">I focus on the parts of a game that players never see but always feel: the systems underneath.</p>
+        </header>
+
+        <ol class="capabilities">
+          <li class="capability" data-reveal>
+            <span class="capability-index">01</span>
+            <h3 class="capability-title">Gameplay systems</h3>
+            <div class="capability-body">
+              <p>Custom mechanics and game loops, written as modular systems that are easy to extend and reuse across a project.</p>
+              <ul class="tags">
+                <li>LuaU</li>
+                <li><a href="https://create.roblox.com/docs/reference/engine/classes/ModuleScript" target="_blank" rel="noopener noreferrer">ModuleScripts</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="capability" data-reveal>
+            <span class="capability-index">02</span>
+            <h3 class="capability-title">Player data &amp; persistence</h3>
+            <div class="capability-body">
+              <p>Save and progression systems that persist reliably, with error handling and data validation built in from the start.</p>
+              <ul class="tags">
+                <li><a href="https://madstudioroblox.github.io/ProfileService/" target="_blank" rel="noopener noreferrer">ProfileService</a></li>
+                <li><a href="https://create.roblox.com/docs/cloud-services/data-stores" target="_blank" rel="noopener noreferrer">DataStores</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="capability" data-reveal>
+            <span class="capability-index">03</span>
+            <h3 class="capability-title">Client-server architecture</h3>
+            <div class="capability-body">
+              <p>Scalable, maintainable project structure with clear boundaries between client and server, so the codebase keeps up as the game grows.</p>
+              <ul class="tags">
+                <li><a href="https://sleitnick.github.io/Knit/" target="_blank" rel="noopener noreferrer">Knit</a></li>
+              </ul>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="section" id="about">
+      <div class="container">
+        <header class="section-head" data-reveal>
+          <p class="eyebrow"><span>03</span> About</p>
+          <h2 class="section-title">The developer behind the systems</h2>
+        </header>
+
+        <div class="about">
+          <div class="about-avatar" data-reveal>
+            <img id="robloxAvatar" alt="Manto's Roblox avatar" width="420" height="420" decoding="async" hidden>
           </div>
+
           <div class="about-content">
-            <p class="about-text reveal">
-              Hello! I'm Manto, an 18-year-old LuaU developer from Brazil with a passion for creating immersive Roblox experiences. I specialize in building robust game systems, custom mechanics, and scalable architectures that bring games to life.
-            </p>
-            <p class="about-text reveal">
-              With over 2 years of experience, I've mastered frameworks like Knit and ProfileService, and I'm constantly pushing the boundaries of what's possible in Roblox development.
-            </p>
-
-            <div class="info-grid">
-              <div class="info-item reveal">
-                <div class="info-label">Name</div>
-                <div class="info-value">Manto</div>
-              </div>
-              <div class="info-item reveal">
-                <div class="info-label">Location</div>
-                <div class="info-value">Brazil (UTC-3)</div>
-              </div>
-              <div class="info-item reveal">
-                <div class="info-label">Experience</div>
-                <div class="info-value">2+ Years</div>
-              </div>
-              <div class="info-item reveal">
-                <div class="info-label">Discord</div>
-                <div class="info-value">maquinadotempo</div>
-              </div>
+            <div class="prose" data-reveal>
+              <p>I'm Manto, a LuaU developer based in Brazil. For more than two years I've been building game systems on Roblox: custom mechanics, data layers and the architecture that holds them together.</p>
+              <p>I work mainly with Knit and ProfileService, and I write code the rest of a team can read, extend and rely on in production.</p>
             </div>
 
-            <div class="hero-actions reveal">
-              <a href="#contact" class="btn btn-primary">Hire Me</a>
-              <a id="robloxProfileLink" href="#" target="_blank" class="btn btn-secondary">Roblox Profile</a>
-            </div>
+            <dl class="facts" data-reveal>
+              <div class="fact"><dt>Based in</dt><dd>Brazil (UTC−3)</dd></div>
+              <div class="fact"><dt>Experience</dt><dd>2+ years</dd></div>
+              <div class="fact"><dt>Projects delivered</dt><dd>15+</dd></div>
+              <div class="fact"><dt>Roblox</dt><dd><a href="https://www.roblox.com/users/72538349/profile" target="_blank" rel="noopener noreferrer" data-roblox-link>@<span id="robloxUsername">profile</span></a></dd></div>
+            </dl>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Skills Section -->
-    <section id="skills" class="section">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="section-label">Skills & Tools</span>
-          <h2 class="section-title">Technologies I Master</h2>
-          <p class="section-description">
-            Specialized in modern Roblox development frameworks and tools
-          </p>
-        </div>
-
-        <div class="skills-grid">
-          <a href="https://sleitnick.github.io/Knit/" target="_blank" class="skill-card reveal" data-skill="knit">
-            <div class="skill-icon">
-              <img src="./img/knit.png" alt="Knit">
-            </div>
-            <h3 class="skill-title">Knit Framework</h3>
-            <p class="skill-description">
-              Expert in building scalable client-server architectures with Knit, creating modular and maintainable game systems.
-            </p>
-          </a>
-          <a href="https://madstudioroblox.github.io/ProfileService/" target="_blank" class="skill-card reveal" data-skill="profileservice">
-            <div class="skill-icon">
-              <img src="./img/profilestore.png" alt="ProfileService">
-            </div>
-            <h3 class="skill-title">ProfileService</h3>
-            <p class="skill-description">
-              Proficient in data management and player progression systems using ProfileService for reliable data persistence.
-            </p>
-          </a>
-          <a href="https://create.roblox.com/docs/reference/engine/classes/ModuleScript" target="_blank" class="skill-card reveal" data-skill="modules">
-            <div class="skill-icon">
-              <img src="./img/module.png" alt="ModuleScripts">
-            </div>
-            <h3 class="skill-title">ModuleScripts</h3>
-            <p class="skill-description">
-              Creating reusable, efficient module systems that streamline development and promote code reusability across projects.
-            </p>
-          </a>
-          <a href="https://create.roblox.com/docs/cloud-services/data-stores" target="_blank" class="skill-card reveal" data-skill="datastores">
-            <div class="skill-icon">
-              <img src="./img/datastore.png" alt="DataStores">
-            </div>
-            <h3 class="skill-title">DataStores</h3>
-            <p class="skill-description">
-              Advanced knowledge of Roblox DataStores, implementing robust save systems with error handling and data validation.
-            </p>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Projects Section with Carousel -->
-    <section id="projects" class="section">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="section-label">Portfolio</span>
-          <h2 class="section-title">Projects I've worked on</h2>
-          <p class="section-description">
-            Showcasing my best work in Roblox game development
-          </p>
-        </div>
-
-        <div class="projects-carousel reveal">
-          <div class="carousel-main" id="carouselMain">
-            <!-- Left Side: Image + Navigation -->
-            <div class="carousel-left-col">
-              <div class="project-image-container">
-                <img id="projImg" src="https://via.placeholder.com/600x400" alt="Project">
-              </div>
-              
-              <div class="carousel-controls-wrapper">
-                <button id="projPrev" class="carouselBtn">
-                  <span>❮</span>
-                </button>
-                <div class="carousel-dots" id="projDots"></div>
-                <button id="projNext" class="carouselBtn">
-                  <span>❯</span>
-                </button>
-              </div>
-            </div>
-
-            <!-- Right Side: Content -->
-            <div class="project-content">
-              <div class="project-header">
-                <div class="project-icon-title">
-                   <span class="bracket">[ 🔨 ]</span> <h3 id="projTitle">Loading...</h3>
-                </div>
-              </div>
-
-              <div id="projMeta"></div>
-
-              <div class="project-details">
-                <h4 class="about-game-label">ABOUT THIS GAME</h4>
-                <p id="projDesc">Please wait while we fetch the latest project information from Roblox.</p>
-              </div>
-              
-              <div class="project-footer">
-                 <a id="projVisit" href="#" target="_blank" class="btn btn-primary">Visit Project</a>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Autoplay Progress Bar -->
-          <div class="autoplay-progress-container" id="autoplayProgressContainer">
-            <div class="autoplay-progress-bar" id="autoplayProgressBar"></div>
+    <!-- Contact -->
+    <section class="section section-contact" id="contact">
+      <div class="container contact">
+        <div class="contact-intro" data-reveal>
+          <p class="eyebrow"><span>04</span> Contact</p>
+          <h2 class="contact-title">Let's build your next game.</h2>
+          <p class="section-lead">I'm always open to new projects and opportunities. Tell me what you're working on and I'll get back to you.</p>
+          <div class="hero-actions">
+            <a href="https://discord.com/users/774330520527306802" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Message on Discord</a>
+            <a href="mailto:contatorealmanto@gmail.com" class="btn btn-ghost">Send an email</a>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="section">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="section-label">Get In Touch</span>
-          <h2 class="section-title">Let's Work Together</h2>
-          <p class="section-description">
-            I'm always interested in new projects and opportunities. Let's create something amazing!
-          </p>
-        </div>
-
-        <div class="contact-wrapper">
-          <div class="contact-grid">
-            <a href="https://discord.com/users/774330520527306802" target="_blank" class="contact-card reveal">
-              <div class="contact-icon">👾</div>
-              <div class="contact-label">Discord</div>
-              <div class="contact-value">maquinadotempo</div>
+        <ul class="contact-list" data-reveal>
+          <li>
+            <a href="https://discord.com/users/774330520527306802" target="_blank" rel="noopener noreferrer" class="contact-row">
+              <svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg>
+              <span class="contact-label">Discord</span>
+              <span class="contact-value">maquinadotempo</span>
+              <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 11.5l7-7M5.5 4.5h6v6"/></svg>
             </a>
-            <a href="https://x.com/vulgomanto" target="_blank" class="contact-card reveal">
-              <div class="contact-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="color:white;">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                </svg>
-              </div>
-              <div class="contact-label">Twitter/X</div>
-              <div class="contact-value">@vulgomanto</div>
+          </li>
+          <li>
+            <a href="mailto:contatorealmanto@gmail.com" class="contact-row">
+              <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></svg>
+              <span class="contact-label">Email</span>
+              <span class="contact-value">contatorealmanto@gmail.com</span>
+              <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 11.5l7-7M5.5 4.5h6v6"/></svg>
             </a>
-            <a href="mailto:contatorealmanto@gmail.com" class="contact-card reveal">
-              <div class="contact-icon">📧</div>
-              <div class="contact-label">Email</div>
-              <div class="contact-value">contatorealmanto</div>
+          </li>
+          <li>
+            <a href="https://x.com/vulgomanto" target="_blank" rel="noopener noreferrer" class="contact-row">
+              <svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              <span class="contact-label">X / Twitter</span>
+              <span class="contact-value">@vulgomanto</span>
+              <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 11.5l7-7M5.5 4.5h6v6"/></svg>
             </a>
-            <a id="robloxContactLink" href="#" target="_blank" class="contact-card reveal">
-              <div class="contact-icon">🎮</div>
-              <div class="contact-label">Roblox</div>
-              <div id="robloxUsername" class="contact-value">Loading...</div>
+          </li>
+          <li>
+            <a href="https://www.roblox.com/users/72538349/profile" target="_blank" rel="noopener noreferrer" class="contact-row" data-roblox-link>
+              <svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5.164 0L.16 18.928 18.836 24 23.84 5.072zm8.747 15.354l-5.219-1.417 1.399-5.29 5.22 1.418z"/></svg>
+              <span class="contact-label">Roblox</span>
+              <span class="contact-value">View profile</span>
+              <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 11.5l7-7M5.5 4.5h6v6"/></svg>
             </a>
-             <div class="contact-card reveal">
-              <div class="contact-icon">📍</div>
-              <div class="contact-label">Location</div>
-              <div class="contact-value">Brazil (UTC-3)</div>
-            </div>
-          </div>
-
-          <div class="hero-actions reveal" style="margin-top: 3rem; justify-content: center;">
-            <a href="https://discord.com/users/774330520527306802" target="_blank" class="btn btn-primary">
-               Discord
-            </a>
-            <a href="mailto:contatorealmanto@gmail.com" class="btn btn-secondary">
-               Send Email
-            </a>
-             <a href="https://x.com/vulgomanto" target="_blank" class="btn btn-secondary">
-               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:middle;">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                </svg>
-               Twitter/X
-            </a>
-          </div>
-        </div>
+          </li>
+        </ul>
       </div>
     </section>
   </main>
 
   <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-content">
-      <div class="footer-text">
-        &copy; 2025 Manto. All rights reserved.
-      </div>
-      <ul class="footer-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-      <div class="social-links">
-        <a href="https://discord.com/users/774330520527306802" target="_blank" class="social-link" title="Discord">
-          <span>👾</span>
-        </a>
-        <a href="https://x.com/vulgomanto" target="_blank" class="social-link" title="Twitter/X">
-          <span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-            </svg>
-          </span>
-        </a>
-        <a href="mailto:contatorealmanto@gmail.com" class="social-link" title="Email">
-          <span>📧</span>
-        </a>
-         <a id="robloxSocialLink" href="#" target="_blank" class="social-link" title="Roblox">
-          <span>🎮</span>
-        </a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p class="footer-email">
-        <a href="mailto:contatorealmanto@gmail.com">contatorealmanto@gmail.com</a>
-      </p>
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; <span id="year">2026</span> Manto. All rights reserved.</p>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="#work">Work</a>
+        <a href="#expertise">Expertise</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="#top">Back to top</a>
+      </nav>
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <!-- Se o script não carregar, remove a classe que esconde os elementos com data-reveal -->
+  <script src="script.js" onerror="document.documentElement.classList.remove('js')"></script>
 </body>
 </html>
