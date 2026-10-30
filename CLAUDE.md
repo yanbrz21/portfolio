@@ -42,7 +42,7 @@ Scroll-reveal is generic: any element with `data-reveal` gets `is-visible` once 
 
 ### Styling
 
-All styling is hand-written in `public/style.css` with no framework, themed through the custom properties in `:root`: neutral near-black surfaces, off-white text, and `--accent` (red) used sparingly for the logo slash, section numbers, focus rings and selection. `--positive` (green) is reserved for live/availability indicators. Fonts are Geist and Geist Mono from Google Fonts; mono is for labels, tags and figures. Breakpoints are 960px, 720px (mobile nav) and 560px. Keep `prefers-reduced-motion` support when adding animation.
+All styling is hand-written in `public/style.css` with no framework, themed through the custom properties in `:root`: neutral near-black surfaces, off-white text, and `--accent` (red) used sparingly for the logo slash, section numbers, focus rings and selection. `--positive` (green) is reserved for live player indicators. Fonts are Geist and Geist Mono from Google Fonts; mono is for labels, tags and figures. Breakpoints are 960px, 720px (mobile nav) and 560px. Keep `prefers-reduced-motion` support when adding animation.
 
 The logo is an inline SVG in the header (`</>` with an accent slash); `public/img/mark.svg` is the same mark on a dark tile for the favicon. Keep the two in sync.
 
