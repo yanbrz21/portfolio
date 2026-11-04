@@ -4,7 +4,7 @@
 
 const ROBLOX_USER_ID = '72538349';
 
-// IDs (universe) dos jogos do Roblox exibidos em "Work"
+// IDs (universe) dos jogos do Roblox exibidos em "Games"
 const universeIds = [
   "9277195104",
   "8606799872",
@@ -16,6 +16,14 @@ const universeIds = [
   "7335244026",
   "7559569212",
 ];
+
+// Helper para criar elementos sem innerHTML (os dados vêm de terceiros)
+function el(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text != null) node.textContent = text;
+  return node;
+}
 
 // ======================
 // HEADER E NAVEGAÇÃO
@@ -45,10 +53,6 @@ navToggle.addEventListener('click', () => {
 
 navLinks.forEach(link => link.addEventListener('click', () => setNavOpen(false)));
 
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') setNavOpen(false);
-});
-
 // Link ativo conforme a seção visível
 const sectionObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
@@ -64,25 +68,92 @@ const sectionObserver = new IntersectionObserver((entries) => {
 document.querySelectorAll('main section[id]').forEach(section => sectionObserver.observe(section));
 
 // ======================
-// SCROLL REVEAL
+// SHOWCASE (PLAYER + HOTBAR)
 // ======================
 
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('is-visible');
-      revealObserver.unobserve(entry.target);
-    }
+const playerScreen = document.getElementById('playerScreen');
+const playerMeta = document.getElementById('playerMeta');
+const playerTitle = document.getElementById('playerTitle');
+const playerText = document.getElementById('playerText');
+const slots = [...document.querySelectorAll('.slot')];
+
+function playIcon() {
+  const span = el('span', 'play-button');
+  span.setAttribute('aria-hidden', 'true');
+  span.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>';
+  return span;
+}
+
+// Começa a tocar o clipe do slot: iframe do YouTube ou vídeo local
+function playSlot(slot) {
+  const { youtube, video } = slot.dataset;
+
+  if (youtube) {
+    const iframe = el('iframe');
+    iframe.src = `https://www.youtube-nocookie.com/embed/${youtube}?autoplay=1&rel=0`;
+    iframe.title = slot.dataset.title;
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    iframe.allowFullscreen = true;
+    playerScreen.replaceChildren(iframe);
+    return;
+  }
+
+  const media = el('video');
+  media.src = video;
+  media.poster = slot.dataset.poster;
+  media.controls = true;
+  media.playsInline = true;
+  media.setAttribute('aria-label', slot.dataset.title);
+  playerScreen.replaceChildren(media);
+  media.play().catch(() => {});
+}
+
+// Seleciona um slot: atualiza a hotbar, o texto e mostra a capa com botão de play
+function selectSlot(slot, autoplay = false) {
+  const index = slots.indexOf(slot);
+
+  slots.forEach(s => {
+    const active = s === slot;
+    s.classList.toggle('is-active', active);
+    s.setAttribute('aria-pressed', String(active));
   });
-}, {
-  threshold: 0.1,
-  rootMargin: '0px 0px -40px 0px'
-});
 
-document.querySelectorAll('[data-reveal]').forEach(el => revealObserver.observe(el));
+  playerMeta.textContent = `Slot ${index + 1} of ${slots.length}, ${slot.dataset.meta}`;
+  playerTitle.textContent = slot.dataset.title;
+  playerText.textContent = slot.dataset.text;
+
+  if (autoplay) {
+    playSlot(slot);
+    return;
+  }
+
+  const poster = el('button', 'player-poster');
+  poster.type = 'button';
+  poster.setAttribute('aria-label', `Play ${slot.dataset.title}`);
+  const img = el('img');
+  img.src = slot.dataset.poster;
+  img.alt = '';
+  poster.append(img, playIcon());
+  poster.addEventListener('click', () => playSlot(slot));
+  playerScreen.replaceChildren(poster);
+}
+
+if (slots.length) {
+  slots.forEach(slot => slot.addEventListener('click', () => selectSlot(slot, true)));
+  selectSlot(slots[0]);
+
+  // Teclas 1 a 5 trocam o clipe, como a hotbar de armas
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setNavOpen(false);
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    if (/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName)) return;
+    const slot = slots[Number(e.key) - 1];
+    if (slot && !slot.classList.contains('is-active')) selectSlot(slot);
+  });
+}
 
 // ======================
-// WORK (JOGOS DO ROBLOX)
+// GAMES (JOGOS DO ROBLOX)
 // ======================
 
 const workGrid = document.getElementById('workGrid');
@@ -98,31 +169,6 @@ function cleanName(name) {
     .replace(/\s+/g, ' ')
     .trim();
   return cleaned || name;
-}
-
-// Helper para criar elementos sem innerHTML (os dados vêm de terceiros)
-function el(tag, className, text) {
-  const node = document.createElement(tag);
-  if (className) node.className = className;
-  if (text != null) node.textContent = text;
-  return node;
-}
-
-function arrowIcon() {
-  const ns = 'http://www.w3.org/2000/svg';
-  const svg = document.createElementNS(ns, 'svg');
-  svg.setAttribute('class', 'arrow');
-  svg.setAttribute('viewBox', '0 0 16 16');
-  svg.setAttribute('fill', 'none');
-  svg.setAttribute('stroke', 'currentColor');
-  svg.setAttribute('stroke-width', '1.5');
-  svg.setAttribute('stroke-linecap', 'round');
-  svg.setAttribute('stroke-linejoin', 'round');
-  svg.setAttribute('aria-hidden', 'true');
-  const path = document.createElementNS(ns, 'path');
-  path.setAttribute('d', 'M4.5 11.5l7-7M5.5 4.5h6v6');
-  svg.appendChild(path);
-  return svg;
 }
 
 // Fetch de todos os jogos em uma única chamada, com retry
@@ -141,61 +187,52 @@ async function fetchGames(retries = 2, delay = 400) {
   }
 }
 
-function stat(label, value) {
-  const wrap = el('div');
-  wrap.append(el('dt', null, label), el('dd', null, value));
+function stat(className, value, label) {
+  const wrap = el('span', `game-stat ${className}`);
+  wrap.append(el('b', null, value), label);
   return wrap;
 }
 
-// Criar o card de um jogo
-function createCard(game, index) {
-  const card = el('a', 'work-card');
-  card.href = game.url;
-  card.target = '_blank';
-  card.rel = 'noopener noreferrer';
-  card.style.setProperty('--i', index);
+// Criar a linha de um jogo na lista ranqueada
+function createRow(game, index) {
+  const row = el('li', 'game');
+  const link = el('a');
+  link.href = game.url;
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
 
-  const thumb = el('div', 'work-thumb');
+  const thumb = el('span', 'game-thumb');
   if (game.image) {
     const img = el('img');
     img.src = game.image;
     img.alt = '';
     img.loading = 'lazy';
     img.decoding = 'async';
-    img.width = 768;
-    img.height = 432;
+    img.width = 320;
+    img.height = 180;
     thumb.appendChild(img);
-  } else {
-    thumb.appendChild(el('span', 'work-initial', game.name.charAt(0)));
   }
 
-  if (game.playing > 0) {
-    const live = el('span', 'work-live');
-    live.append(el('span', 'dot'), `${fullFormat.format(game.playing)} playing`);
-    thumb.appendChild(live);
-  }
+  const title = el('span');
+  title.append(el('span', 'game-name', game.name));
+  if (game.creator) title.append(el('span', 'game-studio', game.creator));
 
-  const body = el('div', 'work-body');
-  const head = el('div', 'work-head');
-  head.append(el('h3', 'work-name', game.name), arrowIcon());
-  body.appendChild(head);
+  const playing = stat('is-playing', fullFormat.format(game.playing), 'playing');
+  if (game.playing > 0) playing.classList.add('is-live');
 
-  if (game.creator) {
-    body.appendChild(el('p', 'work-studio', game.creator));
-  }
-
-  const stats = el('dl', 'work-stats');
-  stats.append(
-    stat('Visits', compactFormat.format(game.visits)),
-    stat('Favorites', compactFormat.format(game.favorites))
+  link.append(
+    el('span', 'game-rank', index + 1),
+    thumb,
+    title,
+    stat('is-visits', compactFormat.format(game.visits), 'visits'),
+    stat('is-favorites', compactFormat.format(game.favorites), 'favorites'),
+    playing
   );
-  body.appendChild(stats);
-
-  card.append(thumb, body);
-  return card;
+  row.appendChild(link);
+  return row;
 }
 
-// Métricas somadas no hero
+// Números somados na frase acima da lista
 function renderTotals(games) {
   const sum = (key) => games.reduce((total, g) => total + g[key], 0);
 
@@ -206,7 +243,7 @@ function renderTotals(games) {
 }
 
 function renderWorkError() {
-  const empty = el('p', 'work-empty', "Couldn't load live game data right now. ");
+  const empty = el('li', 'games-empty', "Couldn't load live game data right now. ");
   const link = el('a', null, 'See my games on Roblox');
   link.href = `https://www.roblox.com/users/${ROBLOX_USER_ID}/profile`;
   link.target = '_blank';
@@ -237,54 +274,8 @@ async function initWork() {
     .sort((a, b) => b.visits - a.visits);
 
   renderTotals(games);
-  workGrid.replaceChildren(...games.map(createCard));
+  workGrid.replaceChildren(...games.map(createRow));
 }
-
-// ======================
-// SHOWCASE (VÍDEOS)
-// ======================
-
-// Destaque do YouTube: o iframe só é criado no clique, para não pesar o carregamento
-document.querySelectorAll('[data-youtube]').forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    const iframe = document.createElement('iframe');
-    iframe.src = `https://www.youtube-nocookie.com/embed/${link.dataset.youtube}?autoplay=1&rel=0`;
-    iframe.title = link.getAttribute('aria-label') || 'YouTube video';
-    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-    iframe.allowFullscreen = true;
-    const frame = el('div', 'feature-media');
-    frame.appendChild(iframe);
-    link.replaceWith(frame);
-  });
-});
-
-// Vídeos locais: botão de play próprio, controles nativos só depois de começar
-const clipVideos = document.querySelectorAll('.clip video');
-
-clipVideos.forEach(video => {
-  const clip = video.closest('.clip');
-  const title = clip.querySelector('.clip-title')?.textContent || 'video';
-
-  video.controls = false;
-  const play = el('button', 'play-button');
-  play.type = 'button';
-  play.setAttribute('aria-label', `Play ${title}`);
-  play.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>';
-  video.after(play);
-
-  play.addEventListener('click', () => {
-    video.controls = true;
-    video.play();
-  });
-
-  video.addEventListener('play', () => {
-    clip.classList.add('is-playing');
-    play.hidden = true;
-    // Só um vídeo tocando por vez
-    clipVideos.forEach(other => { if (other !== video) other.pause(); });
-  });
-});
 
 // ======================
 // PERFIL DO ROBLOX

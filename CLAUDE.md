@@ -26,7 +26,7 @@ Both exist because the Roblox APIs can't be called from the browser (CORS). Each
 - `api/games.js` — `id` is one **universe ID** (not a place ID) or a comma-separated list. Returns `{ data: [{ universeId, rootPlaceId, name, description, creator, playing, visits, favorites, icon, thumbnail }] }`, where `thumbnail` is the 16:9 game thumbnail and `icon` the square icon. The image lookups are optional (failures become `null`). Roblox occasionally returns `visits: 0` for every game; the handler retries and sends `no-store` if the data still looks zeroed, so a bad response is never cached.
 - `api/user.js` — `id` is a Roblox user ID. Returns `{ id, username, displayName, description, followers, friends, avatarUrl }`.
 
-Changing either response shape requires updating the consumers in `public/script.js` (`initWork` / `createCard` / `renderTotals`, and `fetchRobloxUser`).
+Changing either response shape requires updating the consumers in `public/script.js` (`initWork` / `createRow` / `renderTotals`, and `fetchRobloxUser`).
 
 ### Frontend (`public/script.js`)
 
@@ -34,21 +34,19 @@ One plain script, no modules, loaded at the end of `<body>`; it looks elements u
 
 Content that is data-driven rather than written in the HTML:
 
-- **Work grid** — the `universeIds` array at the top of `script.js` is the single source of truth for which games appear. To add or remove a project, edit that array. All games are fetched in one `/api/games` call and **sorted by total visits descending**, so array order does not control display order. `cleanName()` strips `[UPD]`-style tags and emoji from Roblox titles before display. Cards are built with DOM APIs (`el()`), not `innerHTML`, because names and studio names are third-party data.
-- **Hero metrics** — total visits, favorites, concurrent players and game count are summed from the same response in `renderTotals()`. They are never hardcoded; if the fetch fails they stay as "—" and the grid shows a fallback link.
+- **Games list** — the `universeIds` array at the top of `script.js` is the single source of truth for which games appear. To add or remove a project, edit that array. All games are fetched in one `/api/games` call and **sorted by total visits descending**, so array order does not control display order. `cleanName()` strips `[UPD]`-style tags and emoji from Roblox titles before display. Rows of the ranked list (`#workGrid`, an `<ol>`) are built with DOM APIs (`el()`), not `innerHTML`, because names and studio names are third-party data.
+- **Totals** — total visits, favorites, concurrent players and game count are summed from the same response in `renderTotals()` and fill the sentence above the games list. They are never hardcoded; if the fetch fails they stay as "—" and the list shows a fallback link.
 - **Roblox profile** — `ROBLOX_USER_ID` fills the About avatar and username. Profile links are also hardcoded in the HTML so they work without the API.
 
-### Showcase videos
+### Showcase (player and hotbar)
 
-The Showcase section is written in the HTML, not data-driven. The featured card is a YouTube video (`data-youtube="<id>"` on a link to YouTube); `script.js` swaps it for a `youtube-nocookie` iframe only on click. The other clips are local files: `public/videos/<name>.mp4` with a matching poster in `public/img/posters/<name>.jpg`, played through a `<video controls preload="none">` that `script.js` upgrades with its own play button and pauses the other clips when one starts.
+The Showcase is a single player with a five-slot "hotbar" under it, styled after the weapon hotbar in the gun system HUD. Each slot is a `<button class="slot">` in the HTML whose `data-*` attributes hold the clip: `data-youtube="<id>"` or `data-video="videos/<name>.mp4"`, plus `data-poster`, `data-title`, `data-text` and `data-meta` (duration, or "hosted on YouTube"). `script.js` reads them in `selectSlot()` / `playSlot()`: clicking a slot plays it, keys 1–5 only select it. The YouTube clip becomes a `youtube-nocookie` iframe only when played. Without JS the player shows a plain link to the YouTube video.
 
-When adding a clip: keep it H.264 MP4, well under GitHub's 100 MB per-file limit, with the `moov` atom at the start of the file ("faststart") so playback can begin before the whole file downloads. Durations and descriptions on the cards are written by hand; describe only what the video shows or what the owner said. `scripts/dev.mjs` serves `.mp4` with HTTP Range support so seeking works locally.
-
-Scroll-reveal is generic: any element with `data-reveal` gets `is-visible` once it enters the viewport. The hidden initial state only applies under `html.js`, a class added by an inline script in `<head>` and removed again if `script.js` fails to load.
+Local clips live in `public/videos/<name>.mp4` with a poster in `public/img/posters/<name>.jpg`. Keep them H.264 MP4, well under GitHub's 100 MB per-file limit, with the `moov` atom at the start ("faststart") so playback begins before the whole file downloads. The recordings include the Roblox Studio window, so slot thumbnails are cropped to the game viewport with `object-view-box` (`.slot-split` crops the left window of a two-client recording). Durations and descriptions are written by hand: describe only what the video shows or what the owner said. `scripts/dev.mjs` serves `.mp4` with HTTP Range support so seeking works locally.
 
 ### Styling
 
-All styling is hand-written in `public/style.css` with no framework, themed through the custom properties in `:root`: neutral near-black surfaces, off-white text, and `--accent` (red) used sparingly for the logo slash, section numbers, focus rings and selection. `--positive` (green) is reserved for live player indicators. Fonts are Geist and Geist Mono from Google Fonts; mono is for labels, tags and figures. Breakpoints are 960px, 720px (mobile nav) and 560px. Keep `prefers-reduced-motion` support when adding animation.
+All styling is hand-written in `public/style.css` with no framework, themed through the custom properties in `:root`: gunmetal surfaces (`--bg`, `--panel`), bone-white text, and `--red` used only for the logo slash, the active hotbar slot, the play button and selection. `--live` (green) is reserved for live player counts. The only font is Archivo from Google Fonts, loaded with its width axis: headings use `font-stretch: 125%` (expanded), body text the normal width. No monospace, no all-caps labels, no section numbers; the only numbering is the games ranking and the hotbar keys. Breakpoints are 960px, 720px (mobile nav) and 560px. Keep `prefers-reduced-motion` support when adding animation.
 
 The logo is an inline SVG in the header (`</>` with an accent slash); `public/img/mark.svg` is the same mark on a dark tile for the favicon. Keep the two in sync.
 
