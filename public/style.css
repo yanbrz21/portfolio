@@ -304,9 +304,16 @@ button {
   background: var(--panel);
 }
 
+/*
+  As gravações têm a barra de tarefas do Windows nos últimos 4,4% da altura.
+  A tela é um pouco mais larga que 16:9 (1280x684) e o vídeo/capa usa
+  object-fit: cover ancorado no topo, então a faixa de baixo fica de fora
+  sem esconder os controles do player.
+*/
 .player-screen {
   position: relative;
-  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  aspect-ratio: 320 / 171;
   background: #000;
 }
 
@@ -323,6 +330,7 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: 50% 0;
   border: 0;
 }
 
@@ -464,7 +472,7 @@ button {
   color: var(--text);
 }
 
-/* A dica das teclas 1 a 5 só aparece em aparelhos com mouse (e teclado) */
+/* A dica das teclas 1 a 6 só aparece em aparelhos com mouse (e teclado) */
 .hotbar-hint {
   display: none;
   margin-top: 12px;
@@ -889,7 +897,7 @@ button {
 
   .hotbar {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 10px;
     margin-inline: 0;
     padding-inline: 0;

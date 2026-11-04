@@ -67,58 +67,62 @@
       <div class="container">
         <div class="player">
           <div class="player-screen" id="playerScreen">
-            <!-- Estado inicial sem JS: link para o YouTube -->
-            <a class="player-poster" href="https://youtu.be/VH0BBm_VJIc" target="_blank" rel="noopener noreferrer" aria-label="Watch the gun system showcase on YouTube">
-              <img src="img/posters/gun_system.jpg" alt="" width="1280" height="720" decoding="async">
-              <span class="play-button" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg></span>
-            </a>
+            <!-- Estado inicial sem JS: o vídeo do primeiro slot com os controles nativos -->
+            <video src="videos/gun_system.mp4" poster="img/posters/gun_system.jpg" controls playsinline preload="none" aria-label="Realistic gun system"></video>
           </div>
           <div class="player-info" aria-live="polite">
-            <p class="player-meta" id="playerMeta">Slot 1 of 5, hosted on YouTube</p>
+            <p class="player-meta" id="playerMeta">Slot 1 of 6, 1:28</p>
             <h2 class="player-title" id="playerTitle">Realistic gun system</h2>
-            <p class="player-text" id="playerText">Ten guns, semi and full-auto fire, and an ammo HUD. Tested on a target range.</p>
+            <p class="player-text" id="playerText">A realistic gun system with realistic effects, a parkour system and bullet holes.</p>
             <p class="player-note">Recorded in Roblox Studio playtests.</p>
           </div>
         </div>
 
         <ol class="hotbar" aria-label="Showcase clips">
           <li>
-            <button class="slot is-active" type="button" aria-pressed="true" data-youtube="VH0BBm_VJIc" data-poster="img/posters/gun_system.jpg" data-meta="hosted on YouTube" data-title="Realistic gun system" data-text="Ten guns, semi and full-auto fire, and an ammo HUD. Tested on a target range.">
+            <button class="slot is-active" type="button" aria-pressed="true" data-video="videos/gun_system.mp4" data-poster="img/posters/gun_system.jpg" data-meta="1:28" data-title="Realistic gun system" data-text="A realistic gun system with realistic effects, a parkour system and bullet holes.">
               <img src="img/posters/gun_system.jpg" alt="" width="320" height="180" loading="lazy" decoding="async">
               <span class="slot-key">1</span>
               <span class="slot-name">Gun system</span>
             </button>
           </li>
           <li>
+            <button class="slot" type="button" aria-pressed="false" data-video="videos/midnight_shift_like.mp4" data-poster="img/posters/midnight_shift_like.jpg" data-meta="2:24" data-title="Midnight Shift-like laundromat game" data-text="You work the night shift at a laundromat: talk to customers, set each washer to match their ticket, then fold the clothes in a short minigame.">
+              <img src="img/posters/midnight_shift_like.jpg" alt="" width="320" height="180" loading="lazy" decoding="async">
+              <span class="slot-key">2</span>
+              <span class="slot-name">Midnight Shift-like</span>
+            </button>
+          </li>
+          <li>
             <button class="slot" type="button" aria-pressed="false" data-video="videos/destruction_physics.mp4" data-poster="img/posters/destruction_physics.jpg" data-meta="0:52" data-title="Destruction physics" data-text="Walls break into debris when you hit or shoot them.">
               <img src="img/posters/destruction_physics.jpg" alt="" width="320" height="180" loading="lazy" decoding="async">
-              <span class="slot-key">2</span>
+              <span class="slot-key">3</span>
               <span class="slot-name">Destruction physics</span>
             </button>
           </li>
           <li>
             <button class="slot" type="button" aria-pressed="false" data-video="videos/island_game.mp4" data-poster="img/posters/island_game.jpg" data-meta="1:01" data-title="Island game" data-text="Gather resources, keep them in your inventory and sell them at the shop.">
               <img src="img/posters/island_game.jpg" alt="" width="320" height="180" loading="lazy" decoding="async">
-              <span class="slot-key">3</span>
+              <span class="slot-key">4</span>
               <span class="slot-name">Island game</span>
             </button>
           </li>
           <li>
             <button class="slot" type="button" aria-pressed="false" data-video="videos/slop_game.mp4" data-poster="img/posters/slop_game.jpg" data-meta="1:10" data-title="Round-based trend game" data-text="Timed rounds, lots of different abilities, spectate mode and XP.">
               <img src="img/posters/slop_game.jpg" alt="" width="320" height="180" loading="lazy" decoding="async">
-              <span class="slot-key">4</span>
+              <span class="slot-key">5</span>
               <span class="slot-name">Trend game</span>
             </button>
           </li>
           <li>
             <button class="slot slot-split" type="button" aria-pressed="false" data-video="videos/stratego.mp4" data-poster="img/posters/stratego.jpg" data-meta="1:08" data-title="Stratego" data-text="Regular Stratego, with fun animations when pieces fight.">
               <img src="img/posters/stratego.jpg" alt="" width="320" height="180" loading="lazy" decoding="async">
-              <span class="slot-key">5</span>
+              <span class="slot-key">6</span>
               <span class="slot-name">Stratego</span>
             </button>
           </li>
         </ol>
-        <p class="hotbar-hint">Press 1 to 5 to switch clips.</p>
+        <p class="hotbar-hint">Press 1 to 6 to switch clips.</p>
       </div>
     </section>
 

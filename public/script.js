@@ -142,7 +142,7 @@ if (slots.length) {
   slots.forEach(slot => slot.addEventListener('click', () => selectSlot(slot, true)));
   selectSlot(slots[0]);
 
-  // Teclas 1 a 5 trocam o clipe, como a hotbar de armas
+  // Teclas 1 a 6 trocam o clipe, como a hotbar de armas
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') setNavOpen(false);
     if (e.ctrlKey || e.metaKey || e.altKey) return;
