@@ -506,7 +506,7 @@ button {
   grid-template-columns: 16px 72px minmax(0, 1fr) 64px;
   gap: 12px;
   align-items: center;
-  padding: 14px 0;
+  padding: 14px 8px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -882,7 +882,7 @@ button {
   .game.is-skeleton {
     grid-template-columns: 32px 120px minmax(0, 1fr) 90px 90px;
     gap: 24px;
-    padding: 16px 0;
+    padding: 16px 20px;
   }
 
   .game-rank,
