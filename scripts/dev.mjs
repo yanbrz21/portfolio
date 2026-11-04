@@ -1,6 +1,3 @@
-// Local dev server: serves public/ and runs the api/ handlers with a minimal
-// Vercel-style req/res shim. Use it when `vercel dev` isn't available.
-//   node scripts/dev.mjs [port]
 import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { createReadStream } from 'node:fs';
@@ -26,7 +23,6 @@ const types = {
 
 async function runApi(name, req, res, url) {
   const file = join(root, 'api', `${name}.js`);
-  // Cache-bust so edits to a handler apply without restarting.
   const mod = await import(`${pathToFileURL(file).href}?t=${Date.now()}`);
   req.query = Object.fromEntries(url.searchParams);
   res.status = (code) => { res.statusCode = code; return res; };
@@ -60,7 +56,6 @@ createServer(async (req, res) => {
     const rel = normalize(decodeURIComponent(url.pathname)).replace(/^([/\\]|\.\.)+/, '');
     const file = join(publicDir, rel || 'index.html');
     if (!file.startsWith(publicDir)) throw Object.assign(new Error('Forbidden'), { code: 'ENOENT' });
-    // Vídeos precisam de Range para o navegador conseguir buscar e tocar
     if (extname(file) === '.mp4') return await sendRange(file, req, res);
     const body = await readFile(extname(file) ? file : join(file, 'index.html'));
     res.writeHead(200, {

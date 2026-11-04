@@ -6,7 +6,6 @@ async function fetchJson(url) {
     return resp.json();
 }
 
-// Roblox occasionally answers with visits zeroed out for every game; retry before trusting that
 const looksZeroed = (json) => (json.data || []).length > 0 && json.data.every(g => !g.visits);
 
 async function fetchGames(url, retries = 2) {
@@ -28,7 +27,6 @@ if (req.method === "OPTIONS") {
     return;
 }
 
-// Accepts one universe ID or a comma-separated list (?id=1,2,3)
 const id = String(req.query.id || "").replace(/\s+/g, "");
 if (!id) {
     res.status(400).json({ error: "Missing id" });
@@ -44,7 +42,6 @@ const iconsUrl = `https://thumbnails.roblox.com/v1/games/icons?universeIds=${id}
 const thumbsUrl = `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${id}&countPerUniverse=1&defaults=true&size=768x432&format=Png&isCircular=false`;
 
 try {
-    // Images are optional: a thumbnail outage shouldn't take the stats down with it
     const [gamesJson, iconsJson, thumbsJson] = await Promise.all([
         fetchGames(gamesUrl),
         fetchJson(iconsUrl).catch(() => ({ data: [] })),
@@ -72,7 +69,6 @@ try {
         return;
     }
 
-    // Never let the CDN hold on to a response that still looks zeroed
     res.setHeader("Cache-Control", looksZeroed(gamesJson) ? "no-store" : "s-maxage=300, stale-while-revalidate=3600");
     res.status(200).json({ data });
 } catch (err) {

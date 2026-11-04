@@ -1,10 +1,5 @@
-// ======================
-// CONFIGURAÇÕES
-// ======================
-
 const ROBLOX_USER_ID = '72538349';
 
-// IDs (universe) dos jogos do Roblox exibidos em "Games"
 const universeIds = [
   "9277195104",
   "8606799872",
@@ -17,7 +12,6 @@ const universeIds = [
   "7559569212",
 ];
 
-// Helper para criar elementos sem innerHTML (os dados vêm de terceiros)
 function el(tag, className, text) {
   const node = document.createElement(tag);
   if (className) node.className = className;
@@ -25,15 +19,10 @@ function el(tag, className, text) {
   return node;
 }
 
-// ======================
-// HEADER E NAVEGAÇÃO
-// ======================
-
 const siteHeader = document.getElementById('siteHeader');
 const navToggle = document.getElementById('navToggle');
 const navLinks = document.querySelectorAll('.nav-link');
 
-// Fundo do header aparece depois de rolar um pouco
 function updateHeader() {
   siteHeader.classList.toggle('scrolled', window.scrollY > 8);
 }
@@ -41,7 +30,6 @@ function updateHeader() {
 window.addEventListener('scroll', updateHeader, { passive: true });
 updateHeader();
 
-// Menu mobile
 function setNavOpen(open) {
   siteHeader.classList.toggle('nav-open', open);
   navToggle.setAttribute('aria-expanded', String(open));
@@ -53,7 +41,6 @@ navToggle.addEventListener('click', () => {
 
 navLinks.forEach(link => link.addEventListener('click', () => setNavOpen(false)));
 
-// Link ativo conforme a seção visível
 const sectionObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (!entry.isIntersecting) return;
@@ -66,10 +53,6 @@ const sectionObserver = new IntersectionObserver((entries) => {
 });
 
 document.querySelectorAll('main section[id]').forEach(section => sectionObserver.observe(section));
-
-// ======================
-// SHOWCASE (PLAYER + HOTBAR)
-// ======================
 
 const playerScreen = document.getElementById('playerScreen');
 const playerMeta = document.getElementById('playerMeta');
@@ -84,7 +67,6 @@ function playIcon() {
   return span;
 }
 
-// Começa a tocar o clipe do slot: iframe do YouTube ou vídeo local
 function playSlot(slot) {
   const { youtube, video } = slot.dataset;
 
@@ -108,7 +90,6 @@ function playSlot(slot) {
   media.play().catch(() => {});
 }
 
-// Seleciona um slot: atualiza a hotbar, o texto e mostra a capa com botão de play
 function selectSlot(slot, autoplay = false) {
   const index = slots.indexOf(slot);
 
@@ -142,7 +123,6 @@ if (slots.length) {
   slots.forEach(slot => slot.addEventListener('click', () => selectSlot(slot, true)));
   selectSlot(slots[0]);
 
-  // Teclas 1 a 6 trocam o clipe, como a hotbar de armas
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') setNavOpen(false);
     if (e.ctrlKey || e.metaKey || e.altKey) return;
@@ -152,16 +132,11 @@ if (slots.length) {
   });
 }
 
-// ======================
-// GAMES (JOGOS DO ROBLOX)
-// ======================
-
 const workGrid = document.getElementById('workGrid');
 
 const compactFormat = new Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 });
 const fullFormat = new Intl.NumberFormat('en');
 
-// Remove tags tipo "[UPD]" e emojis do nome do jogo
 function cleanName(name) {
   const cleaned = String(name || '')
     .replace(/\[[^\]]*\]/g, ' ')
@@ -171,7 +146,6 @@ function cleanName(name) {
   return cleaned || name;
 }
 
-// Fetch de todos os jogos em uma única chamada, com retry
 async function fetchGames(retries = 2, delay = 400) {
   try {
     const res = await fetch(`/api/games?id=${universeIds.join(',')}`);
@@ -193,7 +167,6 @@ function stat(className, value, label) {
   return wrap;
 }
 
-// Criar a linha de um jogo na lista ranqueada
 function createRow(game, index) {
   const row = el('li', 'game');
   const link = el('a');
@@ -232,7 +205,6 @@ function createRow(game, index) {
   return row;
 }
 
-// Números somados na frase acima da lista
 function renderTotals(games) {
   const sum = (key) => games.reduce((total, g) => total + g[key], 0);
 
@@ -260,7 +232,6 @@ async function initWork() {
     return;
   }
 
-  // Mapear e ORDENAR por visitas - do maior para o menor
   const games = data
     .map(g => ({
       name: cleanName(g.name),
@@ -276,10 +247,6 @@ async function initWork() {
   renderTotals(games);
   workGrid.replaceChildren(...games.map(createRow));
 }
-
-// ======================
-// PERFIL DO ROBLOX
-// ======================
 
 async function fetchRobloxUser(id) {
   try {
@@ -306,10 +273,6 @@ async function fetchRobloxUser(id) {
     console.error('Failed to fetch Roblox user:', err);
   }
 }
-
-// ======================
-// INICIALIZAR
-// ======================
 
 document.getElementById('year').textContent = new Date().getFullYear();
 

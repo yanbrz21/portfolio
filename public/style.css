@@ -1,9 +1,3 @@
-/*
-  Mobile first: os estilos base são para celular.
-  Os media queries com min-width adicionam o layout maior:
-  561px (celular grande), 721px (tablet), 961px (desktop).
-*/
-
 :root {
   --bg: #15171b;
   --panel: #1d2026;
@@ -115,7 +109,6 @@ button {
   top: 12px;
 }
 
-/* Botões */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -144,7 +137,6 @@ button {
   border-color: var(--line-strong);
 }
 
-/* Header */
 .site-header {
   position: sticky;
   top: 0;
@@ -187,7 +179,6 @@ button {
   font-stretch: 125%;
 }
 
-/* No celular o menu abre como uma lista abaixo do header */
 .site-nav {
   position: absolute;
   top: var(--header-h);
@@ -254,7 +245,6 @@ button {
 .nav-open .nav-toggle span:first-child { top: 20.5px; transform: rotate(45deg); }
 .nav-open .nav-toggle span:last-child { top: 20.5px; transform: rotate(-45deg); }
 
-/* Intro */
 .intro {
   padding: 40px 0 24px;
 }
@@ -291,7 +281,6 @@ button {
   flex: 1 1 auto;
 }
 
-/* Showcase */
 .showcase {
   padding-top: 32px;
 }
@@ -304,12 +293,6 @@ button {
   background: var(--panel);
 }
 
-/*
-  As gravações têm a barra de tarefas do Windows nos últimos 4,4% da altura.
-  A tela é um pouco mais larga que 16:9 (1280x684) e o vídeo/capa usa
-  object-fit: cover ancorado no topo, então a faixa de baixo fica de fora
-  sem esconder os controles do player.
-*/
 .player-screen {
   position: relative;
   overflow: hidden;
@@ -388,7 +371,6 @@ button {
   padding-top: 16px;
 }
 
-/* No celular a hotbar rola na horizontal e encosta nas bordas da tela */
 .hotbar {
   display: flex;
   gap: 8px;
@@ -427,13 +409,11 @@ button {
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
-  /* Recorta a interface do Studio e mostra só a área do jogo (onde suportado) */
   object-view-box: inset(19% 18% 24% 15%);
   opacity: 0.55;
   transition: opacity 0.15s var(--ease);
 }
 
-/* Gravação com duas janelas lado a lado: mostra só a da esquerda */
 .slot-split img {
   object-view-box: inset(24% 52% 27% 14%);
 }
@@ -472,7 +452,6 @@ button {
   color: var(--text);
 }
 
-/* A dica das teclas 1 a 6 só aparece em aparelhos com mouse (e teclado) */
 .hotbar-hint {
   display: none;
   margin-top: 12px;
@@ -480,7 +459,6 @@ button {
   color: var(--text-4);
 }
 
-/* Seções */
 .section {
   padding-top: 88px;
 }
@@ -501,7 +479,6 @@ button {
   margin-bottom: 40px;
 }
 
-/* Jogos */
 .totals {
   font-size: 1.125rem;
   line-height: 1.5;
@@ -523,7 +500,6 @@ button {
   border-top: 1px solid var(--line);
 }
 
-/* Celular: posição, capa, nome e visitas */
 .game a,
 .game.is-skeleton {
   display: grid;
@@ -617,7 +593,6 @@ button {
   text-underline-offset: 3px;
 }
 
-/* Skeleton */
 .sk {
   display: block;
   width: 40%;
@@ -637,7 +612,6 @@ button {
   to { background-position: -200% 0; }
 }
 
-/* O que eu faço */
 .skills {
   display: grid;
   gap: 0 64px;
@@ -675,7 +649,6 @@ button {
   text-underline-offset: 3px;
 }
 
-/* Sobre */
 .about {
   display: grid;
   gap: 32px;
@@ -727,7 +700,6 @@ button {
   text-underline-offset: 4px;
 }
 
-/* Contato */
 .contact {
   padding: 100px 0 88px;
 }
@@ -772,7 +744,6 @@ button {
   color: var(--text-3);
 }
 
-/* Footer */
 .site-footer {
   border-top: 1px solid var(--line);
   font-size: 14px;
@@ -786,9 +757,6 @@ button {
   padding-block: 28px;
 }
 
-/* ======================
-   Hover só em aparelhos com mouse (no toque o hover "gruda")
-   ====================== */
 @media (hover: hover) and (pointer: fine) {
   .btn-primary:hover { background: #fff; }
   .btn-ghost:hover { border-color: var(--text-3); }
@@ -818,9 +786,6 @@ button {
   .footer-inner a:hover { color: var(--text); }
 }
 
-/* ======================
-   Celular grande (561px+)
-   ====================== */
 @media (min-width: 561px) {
   .header-actions .btn {
     display: inline-flex;
@@ -839,9 +804,6 @@ button {
   }
 }
 
-/* ======================
-   Tablet (721px+)
-   ====================== */
 @media (min-width: 721px) {
   :root {
     --gutter: 40px;
@@ -990,9 +952,6 @@ button {
   }
 }
 
-/* ======================
-   Desktop (961px+)
-   ====================== */
 @media (min-width: 961px) {
   .intro-inner {
     grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
