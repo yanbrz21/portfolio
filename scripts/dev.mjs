@@ -2,7 +2,8 @@
 // Vercel-style req/res shim. Use it when `vercel dev` isn't available.
 //   node scripts/dev.mjs [port]
 import { createServer } from 'node:http';
-import { readFile } from 'node:fs/promises';
+import { readFile, stat } from 'node:fs/promises';
+import { createReadStream } from 'node:fs';
 import { extname, join, normalize, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -20,6 +21,7 @@ const types = {
   '.jpg': 'image/jpeg',
   '.webp': 'image/webp',
   '.ico': 'image/x-icon',
+  '.mp4': 'video/mp4',
 };
 
 async function runApi(name, req, res, url) {
@@ -35,6 +37,20 @@ async function runApi(name, req, res, url) {
   await mod.default(req, res);
 }
 
+async function sendRange(file, req, res) {
+  const { size } = await stat(file);
+  const match = /bytes=(\d*)-(\d*)/.exec(req.headers.range || '');
+  const headers = { 'Content-Type': types['.mp4'], 'Accept-Ranges': 'bytes', 'Cache-Control': 'no-store' };
+  if (!match) {
+    res.writeHead(200, { ...headers, 'Content-Length': size });
+    return createReadStream(file).pipe(res);
+  }
+  const start = match[1] ? Number(match[1]) : Math.max(0, size - Number(match[2]));
+  const end = match[1] && match[2] ? Math.min(Number(match[2]), size - 1) : size - 1;
+  res.writeHead(206, { ...headers, 'Content-Range': `bytes ${start}-${end}/${size}`, 'Content-Length': end - start + 1 });
+  createReadStream(file, { start, end }).pipe(res);
+}
+
 createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
   try {
@@ -44,6 +60,8 @@ createServer(async (req, res) => {
     const rel = normalize(decodeURIComponent(url.pathname)).replace(/^([/\\]|\.\.)+/, '');
     const file = join(publicDir, rel || 'index.html');
     if (!file.startsWith(publicDir)) throw Object.assign(new Error('Forbidden'), { code: 'ENOENT' });
+    // Vídeos precisam de Range para o navegador conseguir buscar e tocar
+    if (extname(file) === '.mp4') return await sendRange(file, req, res);
     const body = await readFile(extname(file) ? file : join(file, 'index.html'));
     res.writeHead(200, {
       'Content-Type': types[extname(file) || '.html'] || 'application/octet-stream',

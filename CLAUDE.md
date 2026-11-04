@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Personal portfolio site for "Manto" (Roblox / LuaU developer). Static single page plus two Vercel serverless functions that proxy the Roblox public APIs. No `package.json`, no build step, no bundler, no linter, no tests.
+Personal portfolio site for "Manto" (Roblox / Luau developer). Static single page plus two Vercel serverless functions that proxy the Roblox public APIs. No `package.json`, no build step, no bundler, no linter, no tests.
 
 ## Commands
 
@@ -14,7 +14,7 @@ Personal portfolio site for "Manto" (Roblox / LuaU developer). Static single pag
 ## Architecture
 
 ```
-public/    static site served at /  (index.html, style.css, script.js, img/)
+public/    static site served at /  (index.html, style.css, script.js, img/, videos/)
 api/       Vercel serverless functions served at /api/*  (ESM default-export handlers)
 scripts/   local-only tooling (dev server); not deployed
 ```
@@ -37,6 +37,12 @@ Content that is data-driven rather than written in the HTML:
 - **Work grid** — the `universeIds` array at the top of `script.js` is the single source of truth for which games appear. To add or remove a project, edit that array. All games are fetched in one `/api/games` call and **sorted by total visits descending**, so array order does not control display order. `cleanName()` strips `[UPD]`-style tags and emoji from Roblox titles before display. Cards are built with DOM APIs (`el()`), not `innerHTML`, because names and studio names are third-party data.
 - **Hero metrics** — total visits, favorites, concurrent players and game count are summed from the same response in `renderTotals()`. They are never hardcoded; if the fetch fails they stay as "—" and the grid shows a fallback link.
 - **Roblox profile** — `ROBLOX_USER_ID` fills the About avatar and username. Profile links are also hardcoded in the HTML so they work without the API.
+
+### Showcase videos
+
+The Showcase section is written in the HTML, not data-driven. The featured card is a YouTube video (`data-youtube="<id>"` on a link to YouTube); `script.js` swaps it for a `youtube-nocookie` iframe only on click. The other clips are local files: `public/videos/<name>.mp4` with a matching poster in `public/img/posters/<name>.jpg`, played through a `<video controls preload="none">` that `script.js` upgrades with its own play button and pauses the other clips when one starts.
+
+When adding a clip: keep it H.264 MP4, well under GitHub's 100 MB per-file limit, with the `moov` atom at the start of the file ("faststart") so playback can begin before the whole file downloads. Durations and descriptions on the cards are written by hand; describe only what the video shows or what the owner said. `scripts/dev.mjs` serves `.mp4` with HTTP Range support so seeking works locally.
 
 Scroll-reveal is generic: any element with `data-reveal` gets `is-visible` once it enters the viewport. The hidden initial state only applies under `html.js`, a class added by an inline script in `<head>` and removed again if `script.js` fails to load.
 

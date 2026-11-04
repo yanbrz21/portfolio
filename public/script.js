@@ -241,6 +241,52 @@ async function initWork() {
 }
 
 // ======================
+// SHOWCASE (VÍDEOS)
+// ======================
+
+// Destaque do YouTube: o iframe só é criado no clique, para não pesar o carregamento
+document.querySelectorAll('[data-youtube]').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.youtube-nocookie.com/embed/${link.dataset.youtube}?autoplay=1&rel=0`;
+    iframe.title = link.getAttribute('aria-label') || 'YouTube video';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    iframe.allowFullscreen = true;
+    const frame = el('div', 'feature-media');
+    frame.appendChild(iframe);
+    link.replaceWith(frame);
+  });
+});
+
+// Vídeos locais: botão de play próprio, controles nativos só depois de começar
+const clipVideos = document.querySelectorAll('.clip video');
+
+clipVideos.forEach(video => {
+  const clip = video.closest('.clip');
+  const title = clip.querySelector('.clip-title')?.textContent || 'video';
+
+  video.controls = false;
+  const play = el('button', 'play-button');
+  play.type = 'button';
+  play.setAttribute('aria-label', `Play ${title}`);
+  play.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>';
+  video.after(play);
+
+  play.addEventListener('click', () => {
+    video.controls = true;
+    video.play();
+  });
+
+  video.addEventListener('play', () => {
+    clip.classList.add('is-playing');
+    play.hidden = true;
+    // Só um vídeo tocando por vez
+    clipVideos.forEach(other => { if (other !== video) other.pause(); });
+  });
+});
+
+// ======================
 // PERFIL DO ROBLOX
 // ======================
 

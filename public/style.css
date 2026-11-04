@@ -277,6 +277,16 @@ button {
   background: var(--text-3);
 }
 
+.hero-kicker {
+  margin-bottom: 24px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+
 .hero-title {
   max-width: 17ch;
   font-size: clamp(2.5rem, 6.4vw, 4.75rem);
@@ -391,6 +401,208 @@ button {
 .section-lead {
   margin-top: 16px;
   font-size: 1.0625rem;
+  color: var(--text-2);
+  text-wrap: pretty;
+}
+
+.section-head-split {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px 64px;
+  max-width: none;
+}
+
+.section-head-split .section-lead {
+  max-width: 42ch;
+  margin-top: 0;
+}
+
+/* Showcase */
+.feature {
+  display: grid;
+  grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+}
+
+.feature-media {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+
+.feature-media img,
+.feature-media iframe {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 0;
+}
+
+.feature-media iframe {
+  display: block;
+}
+
+.play-button {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 50%;
+  background: rgba(10, 10, 11, 0.72);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: var(--text);
+  transform: translate(-50%, -50%);
+  transition: transform 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+
+.play-button svg {
+  width: 24px;
+  height: 24px;
+  margin-left: 3px;
+}
+
+.feature-media:hover .play-button,
+.clip-media:hover .play-button {
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: translate(-50%, -50%) scale(1.06);
+}
+
+.feature-body {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+}
+
+.feature-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.feature-title {
+  margin-top: 14px;
+  font-size: clamp(1.5rem, 2.6vw, 1.875rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.feature-text {
+  margin-top: 14px;
+  color: var(--text-2);
+  text-wrap: pretty;
+}
+
+.feature-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 32px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.feature-link .arrow {
+  margin-top: 0;
+}
+
+.clip-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.clip {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+}
+
+.clip-media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+
+.clip-media video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.clip-media .play-button {
+  width: 56px;
+  height: 56px;
+  cursor: pointer;
+}
+
+.clip-media .play-button svg {
+  width: 18px;
+  height: 18px;
+}
+
+.clip-length {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(10, 10, 11, 0.8);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text);
+  pointer-events: none;
+}
+
+.clip.is-playing .clip-length {
+  display: none;
+}
+
+.clip-body {
+  padding: 22px 24px 24px;
+}
+
+.clip-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.clip-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.clip-tag {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.clip-body p {
+  margin-top: 8px;
+  font-size: 15px;
   color: var(--text-2);
   text-wrap: pretty;
 }
@@ -687,6 +899,31 @@ a:hover .work-head .arrow {
   margin-top: 18px;
 }
 
+.principles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.principles li {
+  padding-top: 18px;
+  border-top: 1px solid var(--border-strong);
+}
+
+.principles h3 {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.principles p {
+  margin-top: 6px;
+  font-size: 14px;
+  color: var(--text-3);
+  text-wrap: pretty;
+}
+
 .facts {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -826,6 +1063,19 @@ a:hover .work-head .arrow {
     gap: 40px;
   }
 
+  .feature {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-body {
+    padding: 28px;
+  }
+
+  .principles {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
   .contact {
     grid-template-columns: 1fr;
     gap: 48px;
@@ -905,6 +1155,15 @@ a:hover .work-head .arrow {
 
   .section-head {
     margin-bottom: 40px;
+  }
+
+  .section-head-split {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .clip-grid {
+    grid-template-columns: 1fr;
   }
 
   .capability {

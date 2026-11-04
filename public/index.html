@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Manto — Luau Developer for Roblox Studios</title>
-  <meta name="description" content="Manto is a Luau developer building gameplay systems, player data and client-server architecture for Roblox studios.">
+  <title>Manto — Luau Developer for Roblox Games</title>
+  <meta name="description" content="Manto is a Luau developer with 4+ years on Roblox, building realistic gameplay, UI systems and trend games for teams that ship on deadline.">
   <meta name="theme-color" content="#0a0a0b">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Manto — Luau Developer for Roblox Studios">
-  <meta property="og:description" content="Gameplay systems, player data and client-server architecture for Roblox games.">
+  <meta property="og:title" content="Manto — Luau Developer for Roblox Games">
+  <meta property="og:description" content="Realistic gameplay, UI systems and trend games for Roblox, delivered on deadline.">
   <link rel="icon" href="./img/mark.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,14 +32,15 @@
       </a>
 
       <nav class="site-nav" id="siteNav" aria-label="Primary">
-        <a href="#work" class="nav-link">Work</a>
+        <a href="#showcase" class="nav-link">Showcase</a>
+        <a href="#work" class="nav-link">Games</a>
         <a href="#expertise" class="nav-link">Expertise</a>
         <a href="#about" class="nav-link">About</a>
         <a href="#contact" class="nav-link">Contact</a>
       </nav>
 
       <div class="header-actions">
-        <a href="#contact" class="btn btn-primary btn-sm">Get in touch</a>
+        <a href="#contact" class="btn btn-primary btn-sm">Hire me</a>
         <button class="nav-toggle" id="navToggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="siteNav">
           <span></span><span></span>
         </button>
@@ -51,17 +52,19 @@
     <!-- Hero -->
     <section class="hero" id="top">
       <div class="container">
+        <p class="hero-kicker" data-reveal>Luau developer · 4+ years on Roblox</p>
+
         <h1 class="hero-title" data-reveal>
-          Gameplay systems for Roblox games,
-          <span class="muted">built to hold up at scale.</span>
+          Realistic systems, clean UI,
+          <span class="muted">delivered on deadline.</span>
         </h1>
 
         <p class="hero-lead" data-reveal>
-          I'm Manto, a Luau developer. I work with studios on custom mechanics, player data and client-server architecture for games played by millions.
+          I'm Manto, a Luau developer with 4+ years on Roblox. I build realistic gameplay, UI systems and fast-turnaround trend games, and I work inside teams through GitHub and Rojo.
         </p>
 
         <div class="hero-actions" data-reveal>
-          <a href="#work" class="btn btn-primary">View work</a>
+          <a href="#showcase" class="btn btn-primary">Watch the showcase</a>
           <a href="#contact" class="btn btn-ghost">Contact me</a>
         </div>
 
@@ -90,13 +93,113 @@
       </div>
     </section>
 
+    <!-- Showcase -->
+    <section class="section" id="showcase">
+      <div class="container">
+        <header class="section-head section-head-split" data-reveal>
+          <div>
+            <p class="eyebrow"><span>01</span> Showcase</p>
+            <h2 class="section-title">Systems in motion</h2>
+          </div>
+          <p class="section-lead">Recorded straight from Roblox Studio playtests. What you see is the system running, not a mockup.</p>
+        </header>
+
+        <!-- Destaque: vídeo do YouTube, o iframe só carrega no clique -->
+        <article class="feature" data-reveal>
+          <a class="feature-media" href="https://youtu.be/VH0BBm_VJIc" target="_blank" rel="noopener noreferrer" data-youtube="VH0BBm_VJIc" aria-label="Play the gun system showcase">
+            <img src="img/posters/gun_system.jpg" alt="" width="1280" height="720" decoding="async">
+            <span class="play-button" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>
+            </span>
+          </a>
+          <div class="feature-body">
+            <p class="feature-label">Featured</p>
+            <h3 class="feature-title">Realistic gun system</h3>
+            <p class="feature-text">A weapon framework with ten firearms, semi and full-auto fire modes and an ammo HUD, tested on a target range.</p>
+            <ul class="tags">
+              <li>Realistic</li>
+              <li>Combat</li>
+              <li>UI</li>
+            </ul>
+            <a class="feature-link" href="https://youtu.be/VH0BBm_VJIc" target="_blank" rel="noopener noreferrer">
+              Watch on YouTube
+              <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 11.5l7-7M5.5 4.5h6v6"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <div class="clip-grid">
+          <article class="clip" data-reveal>
+            <div class="clip-media">
+              <video controls preload="none" playsinline poster="img/posters/destruction_physics.jpg" width="1280" height="720" aria-label="Destruction physics video">
+                <source src="videos/destruction_physics.mp4" type="video/mp4">
+              </video>
+              <span class="clip-length">0:52</span>
+            </div>
+            <div class="clip-body">
+              <div class="clip-head">
+                <h3 class="clip-title">Destruction physics</h3>
+                <span class="clip-tag">Physics</span>
+              </div>
+              <p>Walls that break apart into debris under melee hits and gunfire.</p>
+            </div>
+          </article>
+          <article class="clip" data-reveal>
+            <div class="clip-media">
+              <video controls preload="none" playsinline poster="img/posters/island_game.jpg" width="1280" height="720" aria-label="Island game video">
+                <source src="videos/island_game.mp4" type="video/mp4">
+              </video>
+              <span class="clip-length">1:01</span>
+            </div>
+            <div class="clip-body">
+              <div class="clip-head">
+                <h3 class="clip-title">Island game</h3>
+                <span class="clip-tag">UI · Systems</span>
+              </div>
+              <p>Resource gathering, an inventory and a shop shelf for selling items.</p>
+            </div>
+          </article>
+          <article class="clip" data-reveal>
+            <div class="clip-media">
+              <video controls preload="none" playsinline poster="img/posters/slop_game.jpg" width="1280" height="720" aria-label="Round-based trend game video">
+                <source src="videos/slop_game.mp4" type="video/mp4">
+              </video>
+              <span class="clip-length">1:10</span>
+            </div>
+            <div class="clip-body">
+              <div class="clip-head">
+                <h3 class="clip-title">Round-based trend game</h3>
+                <span class="clip-tag">Trend game</span>
+              </div>
+              <p>Timed rounds, a roster of unique abilities, spectate mode and XP progression.</p>
+            </div>
+          </article>
+          <article class="clip" data-reveal>
+            <div class="clip-media">
+              <video controls preload="none" playsinline poster="img/posters/stratego.jpg" width="1280" height="720" aria-label="Stratego video">
+                <source src="videos/stratego.mp4" type="video/mp4">
+              </video>
+              <span class="clip-length">1:08</span>
+            </div>
+            <div class="clip-body">
+              <div class="clip-head">
+                <h3 class="clip-title">Stratego</h3>
+                <span class="clip-tag">Multiplayer</span>
+              </div>
+              <p>The classic Stratego board game, with fun animations that bring every battle to life.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <!-- Work -->
     <section class="section" id="work">
       <div class="container">
         <header class="section-head" data-reveal>
-          <p class="eyebrow"><span>01</span> Work</p>
-          <h2 class="section-title">Games I've worked on</h2>
-          <p class="section-lead">Live titles on Roblox, sorted by total visits. Every number here is pulled from the platform in real time.</p>
+          <p class="eyebrow"><span>02</span> Games</p>
+          <h2 class="section-title">Live games I've worked on</h2>
+          <p class="section-lead">Sorted by total visits. Every number here is pulled from Roblox in real time.</p>
         </header>
 
         <div class="work-grid" id="workGrid" aria-live="polite">
@@ -114,41 +217,58 @@
     <section class="section" id="expertise">
       <div class="container">
         <header class="section-head" data-reveal>
-          <p class="eyebrow"><span>02</span> Expertise</p>
-          <h2 class="section-title">What I bring to a project</h2>
-          <p class="section-lead">I focus on the parts of a game that players never see but always feel: the systems underneath.</p>
+          <p class="eyebrow"><span>03</span> Expertise</p>
+          <h2 class="section-title">What I build</h2>
+          <p class="section-lead">Four areas I've shipped again and again, from realistic shooters to quick trend releases.</p>
         </header>
 
         <ol class="capabilities">
           <li class="capability" data-reveal>
             <span class="capability-index">01</span>
-            <h3 class="capability-title">Gameplay systems</h3>
+            <h3 class="capability-title">Realistic gameplay</h3>
             <div class="capability-body">
-              <p>Custom mechanics and game loops, written as modular systems that are easy to extend and reuse across a project.</p>
+              <p>Weapon systems and physics-driven mechanics that feel grounded: firearms, fire modes, ammo handling and destructible environments.</p>
               <ul class="tags">
-                <li>Luau</li>
-                <li><a href="https://create.roblox.com/docs/reference/engine/classes/ModuleScript" target="_blank" rel="noopener noreferrer">ModuleScripts</a></li>
+                <li>Gun systems</li>
+                <li>Destruction</li>
+                <li>Physics</li>
               </ul>
             </div>
           </li>
           <li class="capability" data-reveal>
             <span class="capability-index">02</span>
-            <h3 class="capability-title">Player data &amp; persistence</h3>
+            <h3 class="capability-title">UI systems</h3>
             <div class="capability-body">
-              <p>Save and progression systems that persist reliably, with error handling and data validation built in from the start.</p>
+              <p>Interfaces wired to real game state: HUDs, inventories, shops and menus that stay readable and responsive.</p>
               <ul class="tags">
-                <li><a href="https://madstudioroblox.github.io/ProfileService/" target="_blank" rel="noopener noreferrer">ProfileService</a></li>
-                <li><a href="https://create.roblox.com/docs/cloud-services/data-stores" target="_blank" rel="noopener noreferrer">DataStores</a></li>
+                <li>HUDs</li>
+                <li>Inventories</li>
+                <li>Shops</li>
               </ul>
             </div>
           </li>
           <li class="capability" data-reveal>
             <span class="capability-index">03</span>
-            <h3 class="capability-title">Client-server architecture</h3>
+            <h3 class="capability-title">Trend games</h3>
             <div class="capability-body">
-              <p>Scalable, maintainable project structure with clear boundaries between client and server, so the codebase keeps up as the game grows.</p>
+              <p>Fast-turnaround games built around a tight loop, ready to launch while the trend is still moving.</p>
               <ul class="tags">
+                <li>Round systems</li>
+                <li>Progression</li>
+                <li>Fast delivery</li>
+              </ul>
+            </div>
+          </li>
+          <li class="capability" data-reveal>
+            <span class="capability-index">04</span>
+            <h3 class="capability-title">Team workflow</h3>
+            <div class="capability-body">
+              <p>Code that lives in Git and syncs to Studio with Rojo, so a team can review, branch and ship without stepping on each other.</p>
+              <ul class="tags">
+                <li><a href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                <li><a href="https://rojo.space/" target="_blank" rel="noopener noreferrer">Rojo</a></li>
                 <li><a href="https://sleitnick.github.io/Knit/" target="_blank" rel="noopener noreferrer">Knit</a></li>
+                <li><a href="https://madstudioroblox.github.io/ProfileService/" target="_blank" rel="noopener noreferrer">ProfileService</a></li>
               </ul>
             </div>
           </li>
@@ -160,8 +280,8 @@
     <section class="section" id="about">
       <div class="container">
         <header class="section-head" data-reveal>
-          <p class="eyebrow"><span>03</span> About</p>
-          <h2 class="section-title">The developer behind the systems</h2>
+          <p class="eyebrow"><span>04</span> About</p>
+          <h2 class="section-title">A developer you can hand a deadline to</h2>
         </header>
 
         <div class="about">
@@ -171,14 +291,31 @@
 
           <div class="about-content">
             <div class="prose" data-reveal>
-              <p>I'm Manto, a Luau developer based in Brazil. For more than two years I've been building game systems on Roblox: custom mechanics, data layers and the architecture that holds them together.</p>
-              <p>I work mainly with Knit and ProfileService, and I write code the rest of a team can read, extend and rely on in production.</p>
+              <p>I'm Manto, a Luau developer based in Brazil. I've spent more than four years building on Roblox, from realistic shooters to UI-heavy games and quick trend releases.</p>
+              <p>I work in teams, keep every project in Git and deliver what I commit to on time.</p>
             </div>
 
+            <ul class="principles" data-reveal>
+              <li>
+                <h3>Version-controlled</h3>
+                <p>Every project in Git, synced to Studio with Rojo.</p>
+              </li>
+              <li>
+                <h3>Team player</h3>
+                <p>Readable code and clear communication with the rest of the team.</p>
+              </li>
+              <li>
+                <h3>On deadline</h3>
+                <p>I commit to dates I can hit, and I hit them.</p>
+              </li>
+            </ul>
+
             <dl class="facts" data-reveal>
+              <div class="fact"><dt>Experience</dt><dd>4+ years</dd></div>
               <div class="fact"><dt>Based in</dt><dd>Brazil (UTC−3)</dd></div>
-              <div class="fact"><dt>Experience</dt><dd>2+ years</dd></div>
               <div class="fact"><dt>Projects delivered</dt><dd>15+</dd></div>
+              <div class="fact"><dt>Workflow</dt><dd>GitHub · Rojo</dd></div>
+              <div class="fact"><dt>Focus</dt><dd>Realistic · UI · Trend</dd></div>
               <div class="fact"><dt>Roblox</dt><dd><a href="https://www.roblox.com/users/72538349/profile" target="_blank" rel="noopener noreferrer" data-roblox-link>@<span id="robloxUsername">profile</span></a></dd></div>
             </dl>
           </div>
@@ -190,9 +327,9 @@
     <section class="section section-contact" id="contact">
       <div class="container contact">
         <div class="contact-intro" data-reveal>
-          <p class="eyebrow"><span>04</span> Contact</p>
-          <h2 class="contact-title">Let's build your next game.</h2>
-          <p class="section-lead">I'm always open to new projects and opportunities. Tell me what you're working on and I'll get back to you.</p>
+          <p class="eyebrow"><span>05</span> Contact</p>
+          <h2 class="contact-title">Have a project with a deadline?</h2>
+          <p class="section-lead">Tell me what you're building, your timeline and your team setup. I'll get back to you with how I can help.</p>
           <div class="hero-actions">
             <a href="https://discord.com/users/774330520527306802" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Message on Discord</a>
             <a href="mailto:contatorealmanto@gmail.com" class="btn btn-ghost">Send an email</a>
@@ -213,6 +350,14 @@
               <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></svg>
               <span class="contact-label">Email</span>
               <span class="contact-value">contatorealmanto@gmail.com</span>
+              <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 11.5l7-7M5.5 4.5h6v6"/></svg>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.youtube.com/@mantoblox" target="_blank" rel="noopener noreferrer" class="contact-row">
+              <svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2 31.4 31.4 0 000 12a31.4 31.4 0 00.5 5.8 3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1A31.4 31.4 0 0024 12a31.4 31.4 0 00-.5-5.8zM9.6 15.6V8.4l6.3 3.6z"/></svg>
+              <span class="contact-label">YouTube</span>
+              <span class="contact-value">@mantoblox</span>
               <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 11.5l7-7M5.5 4.5h6v6"/></svg>
             </a>
           </li>
@@ -242,7 +387,8 @@
     <div class="container footer-inner">
       <p>&copy; <span id="year">2026</span> Manto. All rights reserved.</p>
       <nav class="footer-nav" aria-label="Footer">
-        <a href="#work">Work</a>
+        <a href="#showcase">Showcase</a>
+        <a href="#work">Games</a>
         <a href="#expertise">Expertise</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
