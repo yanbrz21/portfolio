@@ -53,4 +53,5 @@ The logo is an inline SVG in the header (`</>` with an accent slash); `public/im
 ## Conventions
 
 - Site copy is in English; code comments in `script.js` and the HTML are in Portuguese (pt-BR). Keep both as they are when editing nearby code.
+- Don't mention the owner's country, city or timezone anywhere on the site (the owner asked for this to avoid being priced lower as a Brazilian freelancer).
 - Don't add claims or numbers to the copy that aren't either supplied by the owner or pulled live from the Roblox API.
