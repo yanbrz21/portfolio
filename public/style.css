@@ -418,6 +418,10 @@ button {
   object-view-box: inset(24% 52% 27% 14%);
 }
 
+.slot-full img {
+  object-view-box: none;
+}
+
 .slot-key {
   position: absolute;
   left: 8px;
@@ -859,7 +863,7 @@ button {
 
   .hotbar {
     display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-columns: repeat(7, minmax(0, 1fr));
     gap: 10px;
     margin-inline: 0;
     padding-inline: 0;
