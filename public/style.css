@@ -407,6 +407,7 @@ button {
 
 .slot img {
   width: 100%;
+  height: auto;
   aspect-ratio: 16 / 9;
   object-fit: cover;
   object-view-box: inset(19% 18% 24% 15%);
@@ -420,6 +421,10 @@ button {
 
 .slot-full img {
   object-view-box: none;
+}
+
+.slot-letterbox img {
+  object-view-box: inset(8% 7% 8% 7%);
 }
 
 .slot-key {
@@ -861,17 +866,8 @@ button {
     margin-top: 14px;
   }
 
-  .hotbar {
-    display: grid;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-    gap: 10px;
-    margin-inline: 0;
-    padding-inline: 0;
-    overflow: visible;
-  }
-
-  .slot-name {
-    padding: 8px 10px;
+  .hotbar li {
+    flex-basis: 23%;
   }
 
   .section {
@@ -997,6 +993,25 @@ button {
 
   .contact-list {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr) repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1201px) {
+  .hotbar {
+    display: grid;
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+    gap: 10px;
+    margin-inline: 0;
+    padding-inline: 0;
+    overflow: visible;
+  }
+
+  .slot-name {
+    min-height: calc(2.5em + 16px);
+    padding: 8px 10px;
+    font-size: 13px;
+    line-height: 1.25;
+    white-space: normal;
   }
 }
 
