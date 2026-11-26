@@ -54,5 +54,5 @@ The logo is an inline SVG in the header (`</>` with an accent slash); `public/im
 
 - Site copy is in English. The code has no comments (the repository is public); keep it that way.
 - Don't mention the owner's country, city or timezone anywhere on the site or in the repository (the owner asked for this).
-- Don't add claims or numbers to the copy that aren't either supplied by the owner or pulled live from the Roblox API. The Experience section ("Where I've worked") follows the owner's resume; the owner asked to leave the independent Ball vs Ball project off the site.
+- Don't add claims or numbers to the copy that aren't either supplied by the owner or pulled live from the Roblox API. The Experience section ("Where I've worked") follows the owner's resume, kept general on purpose: Indigo lists some games plus "a bunch more" and describes the work as weekly updates and live ops, and SantaGroup only says the owner worked on Brazilian Life RP, without saying on what. The owner asked to leave the independent Ball vs Ball project off the site.
 - Copy must not read as AI-written: plain first-person sentences, concrete things the owner built, no marketing phrasing ("from X to Y", "built in from the start", "seamless", strings of abstract nouns).

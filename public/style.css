@@ -789,7 +789,8 @@ button {
 }
 
 .facts a,
-.job-head h3 a {
+.job-head h3 a,
+.job-text a {
   text-decoration: underline;
   text-decoration-color: var(--line-strong);
   text-underline-offset: 4px;
@@ -892,7 +893,8 @@ button {
   }
 
   .facts a:hover,
-  .job-head h3 a:hover { text-decoration-color: var(--text); }
+  .job-head h3 a:hover,
+  .job-text a:hover { text-decoration-color: var(--text); }
 
   .contact-list a:hover { border-color: var(--line-strong); color: #fff; }
   .contact-list a:hover span { color: var(--text); }
